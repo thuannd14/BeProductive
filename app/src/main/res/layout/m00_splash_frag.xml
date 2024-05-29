@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/bg_splash"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:src="@mipmap/beproductive_2"
+        android:layout_width="200dp"
+        android:background="@color/bg_splash"
+        android:layout_height="200dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/inter_font"
+        android:text="@string/txt_name_app"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

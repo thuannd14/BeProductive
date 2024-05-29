@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">BeProductive</string>
+    <string name="txt_be">Be</string>
+    <string name="txt_productive">Productive</string>
+    <string name="txt_name_app">
+        <font color="#ffc120">Be</font>
+        <font color="#6000f7">Productive</font>
+    </string>
+    <string name="txt_welcome_to">Welcome to</string>
+    <string name="txt_on_boarding_2">Tools for mindfulness exercises, timers, and productivity trackers</string>
+    <string name="txt_on_boarding_3">Editor for creating, editing, and organizing note</string>
+    <string name="txt_on_boarding_4">Dive in and discover insights, tips, and strategies that will propel your efficiency and success\n</string>
+    <string name="txt_all_notes">All notes</string>
+    <string name="txt_nhap">Thuan Nguyen Duc Nguyen Duc Thuan hsjkdhfjksdhfjksdhfhsdjkhfjksdhfsgfhjsd skjhfjksdskdhfjksd shdfjkhsdsjkhfjksd</string>
+    <string name="txt_write_a_new_note">Write a new note</string>
+    <string name="txt_date_create_note">Dec 21 2023, 23:58</string>
+    <string name="txt_note_something">Note something...</string>
+    <string name="txt_delete_dialog">Are you sure to delete?</string>
+    <string name="txt_yes">Yes, delete</string>
+    <string name="txt_no">No, keep it</string>
+</resources>

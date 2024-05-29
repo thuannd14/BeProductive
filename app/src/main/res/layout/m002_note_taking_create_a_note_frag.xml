@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_back_create_note"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dimen_margin_start"
+        android:layout_marginTop="@dimen/dimen_margin_top"
+        android:padding="5dp"
+        android:src="@mipmap/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="@dimen/dimen_margin_top"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/txt_write_a_new_note"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/iv_back_create_note"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ln_create_note"
+        android:layout_width="match_parent"
+        android:layout_height="580dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_back_create_note">
+
+        <TextView
+            android:id="@+id/tv_date_create_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/inter_font"
+            android:gravity="end"
+            android:text="@string/txt_date_create_note"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:id="@+id/fr_create_note"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/ed_content_note"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/bg_item_note"
+                android:gravity="top"
+                android:hint="@string/txt_note_something"
+                android:inputType="textMultiLine"
+                android:maxLines="20"
+                android:minLines="3"
+                android:paddingStart="10dp"
+                android:paddingTop="30dp"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:singleLine="true"
+                android:textColorHint="@color/black"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry" />
+
+            <ImageView
+                android:id="@+id/change_color"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:src="@mipmap/ic_table_color" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_create_note"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_button"
+        android:fontFamily="@font/inter_font"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ln_create_note" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
