@@ -29,6 +29,10 @@ class NoteAdapter(
         const val COLOR = "COLOR"
     }
 
+    fun getContext(): Context{
+        return context
+    }
+
     private var liveDataNote: MutableLiveData<String> = MutableLiveData<String>()
 
     fun getLiveDataNote(): MutableLiveData<String> {

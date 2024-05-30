@@ -66,4 +66,7 @@ dependencies {
 
     // Saved state module for ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
+
+    // https://github.com/xabaras/RecyclerViewSwipeDecorator
+    implementation ("it.xabaras.android:recyclerview-swipedecorator:1.4")
 }

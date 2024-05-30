@@ -4,8 +4,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ndt.beproductive.App
+import com.ndt.beproductive.RecyclerViewTouchHelper
 import com.ndt.beproductive.adapter.NoteAdapter
 import com.ndt.beproductive.databinding.M002NoteTakingEmptyFragBinding
 import com.ndt.beproductive.model.Note
@@ -32,7 +34,6 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
 
         setAdapterOnRv()
 
-
     }
 
     private fun setAdapterOnRv() {
@@ -45,6 +46,9 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
         noteList.reverse()
         adapter.addNote(noteList)
 
+        // xu lí vuot sang để xóa hoac edit.
+        val itemTouchHelper = ItemTouchHelper(RecyclerViewTouchHelper(adapter))
+        itemTouchHelper.attachToRecyclerView(binding.rvAllNotes)
 
         // mo 1 note trong recyclerview.
         adapter.getLiveDataNote().observe(viewLifecycleOwner, Observer<String> {

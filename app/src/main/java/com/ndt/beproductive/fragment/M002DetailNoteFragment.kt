@@ -1,5 +1,6 @@
 package com.ndt.beproductive.fragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.ndt.beproductive.App
@@ -17,15 +18,16 @@ class M002DetailNoteFragment : BaseFrag<M002NoteTakingDetailFragBinding, M002Det
         contentNote = App.instance.getStorage().content
         //dateTimeNote = App.instance.getStorage().dateTime
 
-        if (contentNote.isNotEmpty()){
+        if (contentNote.isNotEmpty()) {
             binding.tvDetail.text = contentNote
             //binding.tvDateDetail.text = dateTimeNote
-        }else{
+        } else {
             showNotify("Null")
         }
 
         binding.tvEditDetail.setOnClickListener {
-            //mCallBack
+            mCallBack.showFrag(M002EditFrag.TAG, contentNote, true)
+            Log.i(TAG, "M002Edit")
         }
         binding.ivBackDetail.setOnClickListener {
             mCallBack.backPrevious()
