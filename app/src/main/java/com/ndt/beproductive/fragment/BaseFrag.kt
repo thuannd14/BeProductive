@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.ndt.beproductive.OnMainCallBack
+import com.ndt.beproductive.db.DBNote
 import com.ndt.beproductive.viewmodel.BaseViewModel
 
 
@@ -27,6 +28,7 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
     protected lateinit var mCallBack: OnMainCallBack
     protected lateinit var mContext: Context
     protected var mdata: Any? = null
+    //protected lateinit var myDB: DBNote
 
     open fun setCallBack(callBack: OnMainCallBack) {
         this.mCallBack = callBack
@@ -46,6 +48,7 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
     ): View? {
         binding = initViewBinding(inflater, container)
         viewModel = ViewModelProvider(this)[getClassVM()]
+        //myDB = context?.let { DBNote(it) }!!
         Log.i(TAG, "Base Frag")
         return binding.root
     }
@@ -82,5 +85,6 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
     protected open fun showNotify(msgID: Int) {
         Toast.makeText(context, msgID, Toast.LENGTH_LONG).show()
     }
+
 
 }

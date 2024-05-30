@@ -5,14 +5,14 @@ import android.annotation.SuppressLint
 class Note {
     private var id: Int = 0
     private lateinit var content: String
-    private lateinit var dateTime: String
-    private var color: Int = 0
-
+    private var dateTime = "12"
+    private var color: Int = 0xff00000
+    @SuppressLint("NotConstructor")
     fun Note(id: Int, content: String, dateTime: String, color: Int) {
         this.id = id
         this.content = content
-        this.dateTime = dateTime
-        this.color = color
+        this.dateTime = "1"
+        this.color = 1
     }
 
     companion object {

@@ -16,6 +16,7 @@ class M002CreateNoteFrag : BaseFrag<M002NoteTakingCreateANoteFragBinding, M002Cr
             var contentNote = binding.edContentNote.text.toString().trim()
             Log.i(TAG, "Content: $contentNote")
             viewModel.saveNote(contentNote)
+            mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, false)
         }
     }
 

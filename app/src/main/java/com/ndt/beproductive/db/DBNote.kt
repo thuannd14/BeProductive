@@ -45,6 +45,7 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
         values.put(COL_DATE, note.getDateTime())
         values.put(COL_COLOR, note.getColor())
         dbNote.insert(TABLE_NAME, null, values)
+        Log.i(TAG, "Saved success")
     }
 
     // update note.
@@ -56,6 +57,7 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
         values.put(COL_DATE, dateTime)
         values.put(COL_COLOR, color)
         dbNote.update(TABLE_NAME, values, "ID=?", arrayOf(id.toString()))
+        Log.i(TAG, "Updated success")
     }
 
     // update status note
@@ -70,6 +72,7 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
     fun deleteNote(id: Int) {
         dbNote = this.writableDatabase
         dbNote.delete(TABLE_NAME, "ID=?", arrayOf(id.toString()))
+        Log.i(TAG, "Deleted success")
     }
 
     // Hien thi cac note len RecyclerView.
@@ -90,6 +93,7 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
                         note.setContent(cursor.getString(cursor.getColumnIndex(COL_NOTE)))
                         note.setDateTime(cursor.getString(cursor.getColumnIndex(COL_STATUS)))
                         note.setColor(cursor.getInt(cursor.getColumnIndex(COL_COLOR)))
+                        noteList.add(note)
                         Log.i(TAG, "DONE!!")
                     } while (cursor.moveToNext())
                 }
