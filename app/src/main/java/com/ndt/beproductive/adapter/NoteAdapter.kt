@@ -2,17 +2,15 @@ package com.ndt.beproductive.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.ndt.beproductive.AddNewNote
+import com.ndt.beproductive.App
 import com.ndt.beproductive.R
 import com.ndt.beproductive.db.DBNote
 import com.ndt.beproductive.model.Note
@@ -29,14 +27,19 @@ class NoteAdapter(
         const val COLOR = "COLOR"
     }
 
-    fun getContext(): Context{
+    fun getContext(): Context {
         return context
     }
 
     private var liveDataNote: MutableLiveData<String> = MutableLiveData<String>()
+    private var liveDataID: MutableLiveData<Int> = MutableLiveData<Int>()
 
     fun getLiveDataNote(): MutableLiveData<String> {
         return liveDataNote
+    }
+
+    fun getLiveDataID(): MutableLiveData<Int> {
+        return liveDataID
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
@@ -49,7 +52,9 @@ class NoteAdapter(
         holder.tvContent.text = note.getContent()
         //holder.tvDateTime.text = note.getDateTime()
         holder.itemView.tag = note.getContent()
-        Log.i(TAG, "${note.getContent()} \n ${note.getDateTime()}")
+        App.instance.getStorage().id = note.getID()
+
+        Log.i(TAG, "${note.getContent()} \n ${note.getDateTime()} \n ${note.getID()} ")
     }
 
 
@@ -73,20 +78,13 @@ class NoteAdapter(
         notifyDataSetChanged()
     }
 
+    private var id: Int = 0
+
     fun editNote(pos: Int) {
         val itemNote = noteList[pos]
-        val contentNoteBundle = Bundle()
-        contentNoteBundle.putInt(ID, itemNote.getID()) // id cua note can edit.
-        contentNoteBundle.putString(CONTENT, itemNote.getContent())
-        contentNoteBundle.putString(DATE_TIME, itemNote.getDateTime())
-        contentNoteBundle.putInt(COLOR, itemNote.getColor())
-
-        val note = AddNewNote()
-        note.arguments = contentNoteBundle
-        // yeu cau la 1 fragmentmanagement.
-        if (context is FragmentActivity) {
-            note.show((context as FragmentActivity).supportFragmentManager, AddNewNote.TAG)
-        }
+        val idNote = itemNote.getID()
+        App.instance.getStorage().id = idNote
+        Log.i(TAG, "id note: $idNote")
     }
 
     fun checkStatus(isFlag: Int): Boolean {
@@ -105,8 +103,8 @@ class NoteAdapter(
         }
     }
 
-    private fun goToDetailNote(note: String) {
-        getLiveDataNote().postValue(note)
-        Log.i(TAG, "Success ${note}!")
+    private fun goToDetailNote(noteContent: String) {
+        getLiveDataNote().postValue(noteContent)
+        Log.i(TAG, "Success ${noteContent}!")
     }
 }

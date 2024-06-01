@@ -11,15 +11,20 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
+import com.ndt.beproductive.OnChangeMenu
 import com.ndt.beproductive.OnMainCallBack
-import com.ndt.beproductive.db.DBNote
 import com.ndt.beproductive.viewmodel.BaseViewModel
 
 
-abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.OnClickListener {
+abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.OnClickListener
+     {
 
     companion object {
         val TAG: String = BaseFrag::class.java.name
+        val ALL_NOTES = 1
+        val FOCUS_TIME = 2
+        val EXPLORE = 3
+        val SETTING = 4
     }
 
 
@@ -86,5 +91,50 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
         Toast.makeText(context, msgID, Toast.LENGTH_LONG).show()
     }
 
+    /*
+    protected open fun changeMenu(color: Int) {
+        if (R.id.iv_notes == M002TakingEmptyFrag.ALL_NOTES) {
+            binding.includeMenu.ivNotes.setOnClickListener {
+                it.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        mContext, androidx.appcompat.R.anim.abc_fade_in
+                    )
+                )
+                binding.includeMenu.ivNotes.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+                mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, true)
+            }
+        } else if (R.id.iv_explore == M002TakingEmptyFrag.EXPLORE) {
+            binding.includeMenu.ivExplore.setOnClickListener {
+                it.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        mContext, androidx.appcompat.R.anim.abc_fade_in
+                    )
+                )
+                binding.includeMenu.ivExplore.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+                mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, true)
+            }
+        } else if (R.id.iv_pomodoro == M002TakingEmptyFrag.EXPLORE) {
+            binding.includeMenu.ivPomodoro.setOnClickListener {
+                it.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        mContext, androidx.appcompat.R.anim.abc_fade_in
+                    )
+                )
+                binding.includeMenu.ivPomodoro.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+                mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, true)
+            }
+        } else if (R.id.iv_setting == M002TakingEmptyFrag.EXPLORE) {
+            binding.includeMenu.ivSetting.setOnClickListener {
+                it.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        mContext, androidx.appcompat.R.anim.abc_fade_in
+                    )
+                )
+                binding.includeMenu.ivSetting.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+                mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, true)
+            }
+        }
+    }
 
+     */
 }

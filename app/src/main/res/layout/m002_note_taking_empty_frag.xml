@@ -82,6 +82,7 @@
         app:layout_constraintTop_toBottomOf="@id/ln_search"
         tools:listitem="@layout/item_note" />
 
+
     <include
         android:id="@+id/include_menu"
         layout="@layout/action_bot_menu"
