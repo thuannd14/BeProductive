@@ -69,4 +69,10 @@ dependencies {
 
     // https://github.com/xabaras/RecyclerViewSwipeDecorator
     implementation ("it.xabaras.android:recyclerview-swipedecorator:1.4")
+
+    // coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    //glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
 }
