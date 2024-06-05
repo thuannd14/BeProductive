@@ -1,5 +1,7 @@
 package com.ndt.beproductive
 
+import android.net.Uri
+
 class Storage {
     companion object {
         val TAG: String = Storage::class.java.name
@@ -13,4 +15,8 @@ class Storage {
 
     // Luu vi tri Int cua hinh anh trong list.
     var indexImg: Int? = null
+
+    // Luu noi dung ghi chu o main focus screen.
+    var contentText: String? = null
+
 }

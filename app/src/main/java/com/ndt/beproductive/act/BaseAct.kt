@@ -9,13 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
+import com.ndt.beproductive.OnDialogCallBack
 import com.ndt.beproductive.OnMainCallBack
 import com.ndt.beproductive.R
 import com.ndt.beproductive.fragment.BaseFrag
 
 
 abstract class BaseAct<V : ViewBinding, M : ViewModel> : AppCompatActivity(), View.OnClickListener,
-    OnMainCallBack {
+    OnMainCallBack, OnDialogCallBack {
 
     companion object {
         val TAG: String = BaseAct::class.java.name
@@ -96,8 +97,15 @@ abstract class BaseAct<V : ViewBinding, M : ViewModel> : AppCompatActivity(), Vi
 
 
     override fun backPrevious() {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
     }
+
+    protected open fun callBack(){
+        // dung de ghi de lai.
+        // callBack nay la de dung cho Dialog.
+    }
+
+
 
     protected open fun showNotify(msg: String?) {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show()

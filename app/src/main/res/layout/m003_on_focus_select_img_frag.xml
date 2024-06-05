@@ -19,7 +19,7 @@
         android:layout_marginBottom="80dp"
         android:background="@drawable/bg_button_start"
         android:fontFamily="@font/inter_font"
-        android:text="@string/txt_start"
+        android:text="@string/txt_select"
         android:textColor="@color/purple"
         android:textSize="18sp" />
 </FrameLayout>

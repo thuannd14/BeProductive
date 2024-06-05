@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 
 class CommonUtils {
     companion object {
-        private val PREF_FILE = "pref_saving" // noi luu
+        const val PREF_FILE = "pref_saving" // noi luu
         var instance: CommonUtils? = null
     }
 

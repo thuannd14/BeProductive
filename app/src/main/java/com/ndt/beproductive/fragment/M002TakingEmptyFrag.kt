@@ -41,11 +41,17 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
             Log.i(TAG, "Add notes")
             mCallBack.showFrag(M002CreateNoteFrag.TAG, null, true)
         }
+
+        binding.includeMenu.ivSetting.setOnClickListener {
+            mCallBack.showFrag(M005SettingFrag.TAG, null, true)
+        }
         // Lay ds note tu vm.
         noteList = viewModel.getNoteList()
         Log.i(TAG, "NOTE LIST: $noteList")
 
         setAdapterOnRv()
+
+
     }
 
 

@@ -33,7 +33,6 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
     protected lateinit var mCallBack: OnMainCallBack
     protected lateinit var mContext: Context
     protected var mdata: Any? = null
-    //protected lateinit var myDB: DBNote
 
     open fun setCallBack(callBack: OnMainCallBack) {
         this.mCallBack = callBack
@@ -53,7 +52,6 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
     ): View? {
         binding = initViewBinding(inflater, container)
         viewModel = ViewModelProvider(this)[getClassVM()]
-        //myDB = context?.let { DBNote(it) }!!
         Log.i(TAG, "Base Frag")
         return binding.root
     }

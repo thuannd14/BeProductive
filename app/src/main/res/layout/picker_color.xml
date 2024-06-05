@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_picker"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center"
+        android:padding="3dp"
+        android:weightSum="3">
+
+        <ImageView
+            android:id="@+id/iv_reject_color"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:src="@mipmap/ic_reject" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:fontFamily="@font/inter_font"
+            android:gravity="start|center"
+            android:text="@string/txt_pick_a_color"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <androidx.cardview.widget.CardView
+        cardBackgroundColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:weightSum="6">
+
+        <ImageView
+            android:id="@+id/iv_yellow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@color/yellow_pick" />
+
+        <ImageView
+            android:id="@+id/iv_orange"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@color/orange_pick" />
+
+        <ImageView
+            android:id="@+id/iv_light_red"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@color/light_red_pick" />
+
+        <ImageView
+            android:id="@+id/iv_light_pink"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@color/light_pink_pick" />
+
+        <ImageView
+            android:id="@+id/iv_purple"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@color/light_purple_pick" />
+
+        <ImageView
+            android:id="@+id/iv_blue"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@color/light_blue" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:weightSum="6">
+
+        <ImageView
+            android:id="@+id/iv_heave_blue"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@color/heaven_blue_pick" />
+
+        <ImageView
+            android:id="@+id/iv_green"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@color/green_pick" />
+
+        <ImageView
+            android:id="@+id/iv_light_green"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@color/light_green_pick" />
+
+        <ImageView
+            android:id="@+id/iv_light_yellow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@color/light_yellow_pick" />
+
+        <ImageView
+            android:id="@+id/iv_gray"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@color/gray_pick" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@color/white" />
+
+    </TableRow>
+
+    <androidx.cardview.widget.CardView
+        cardBackgroundColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_select"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_no_delete"
+            android:fontFamily="@font/inter_font"
+            android:gravity="center"
+            android:text="Select"
+            android:textColor="@color/purple"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+</LinearLayout>

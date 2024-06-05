@@ -27,4 +27,13 @@
     <string name="txt_break">Break</string>
     <string name="txt_start">Start</string>
     <string name="txt_content_focus">What to focus on next?</string>
+    <string name="txt_19_16">19:16</string>
+    <string name="txt_exit">Exit</string>
+    <string name="txt_select">Select</string>
+    <string name="txt_time_brak">5:00</string>
+    <string name="txt_time_to_break">Time to break!!</string>
+    <string name="txt_yes_back">Yes, back!</string>
+    <string name="txt_no_stay">No, stay!!</string>
+    <string name="txt_confirm_exit">Are you sure to exit?</string>
+    <string name="txt_pick_a_color">Pick a color</string>
 </resources>
