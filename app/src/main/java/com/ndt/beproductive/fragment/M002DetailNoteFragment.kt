@@ -14,19 +14,22 @@ class M002DetailNoteFragment : BaseFrag<M002NoteTakingDetailFragBinding, M002Det
 
     private lateinit var contentNote: String
     private lateinit var dateTimeNote: String
+    private var colorBg: Int? = null
     override fun initViews() {
         contentNote = App.instance.getStorage().content
-        //dateTimeNote = App.instance.getStorage().dateTime
+        dateTimeNote = App.instance.getStorage().dateTime
+        colorBg = App.instance.getStorage().color
 
         if (contentNote.isNotEmpty()) {
             binding.tvDetail.text = contentNote
-            //binding.tvDateDetail.text = dateTimeNote
+            binding.tvDateDetail.text = dateTimeNote
+            binding.cLMainDetail.setBackgroundColor(colorBg!!)
         } else {
             showNotify("Null")
         }
 
         binding.tvEditDetail.setOnClickListener {
-            mCallBack.showFrag(M002EditFrag.TAG, contentNote, true)
+            mCallBack.showFrag(M002EditFrag.TAG, null, true)
             Log.i(TAG, "M002Edit")
         }
         binding.ivBackDetail.setOnClickListener {

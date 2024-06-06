@@ -52,10 +52,19 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/iv_change_color"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:src="@mipmap/ic_table_color" />
 
         <FrameLayout
             android:id="@+id/fr_create_note"
             android:layout_width="match_parent"
+            android:background="@drawable/bg_item_note"
             android:layout_height="fill_parent"
             android:layout_marginTop="5dp">
 
@@ -63,8 +72,9 @@
                 android:id="@+id/ed_content_note_edit"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:background="@drawable/bg_item_note"
+                android:background="@color/light_green_pick"
                 android:gravity="top"
+                android:textColor="@color/black"
                 android:hint="@string/txt_note_something"
                 android:inputType="textMultiLine"
                 android:maxLines="20"
@@ -78,14 +88,6 @@
                 android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
 
-            <ImageView
-                android:id="@+id/change_color"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="end"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:src="@mipmap/ic_table_color" />
         </FrameLayout>
     </LinearLayout>
 

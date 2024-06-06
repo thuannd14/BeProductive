@@ -1,6 +1,7 @@
 package com.ndt.beproductive.viewmodel
 
 import android.util.Log
+import com.ndt.beproductive.App
 import com.ndt.beproductive.model.Note
 
 class M002TakingEmptyVM : BaseViewModel() {
@@ -15,5 +16,16 @@ class M002TakingEmptyVM : BaseViewModel() {
         noteListDB = myDB.showNote()
         Log.i(TAG, "Size ${noteListDB.size}")
         return noteListDB
+    }
+
+    fun saveDetail(note: Note) {
+        App.instance.getStorage().content = note.getContent()
+        App.instance.getStorage().color = note.getColor()
+        App.instance.getStorage().dateTime = note.getDateTime()
+        Log.i(
+            TAG, "Save Note:${App.instance.getStorage().content}" +
+                    "\n${App.instance.getStorage().color} " +
+                    "\n${App.instance.getStorage().dateTime}"
+        )
     }
 }

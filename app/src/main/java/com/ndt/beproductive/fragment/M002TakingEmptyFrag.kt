@@ -20,10 +20,10 @@ import com.ndt.beproductive.viewmodel.M002TakingEmptyVM
 class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingEmptyVM>() {
     companion object {
         val TAG: String = M002TakingEmptyFrag::class.java.name
-        val ALL_NOTES = 1
-        val FOCUS_TIME = 2
-        val EXPLORE = 3
-        val SETTING = 4
+        const val ALL_NOTES = 1
+        const val FOCUS_TIME = 2
+        const val EXPLORE = 3
+        const val SETTING = 4
     }
 
     private lateinit var adapter: NoteAdapter
@@ -50,8 +50,6 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
         Log.i(TAG, "NOTE LIST: $noteList")
 
         setAdapterOnRv()
-
-
     }
 
 
@@ -114,16 +112,14 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
         itemTouchHelper.attachToRecyclerView(binding.rvAllNotes)
 
         // mo 1 note trong recyclerview.
-        adapter.getLiveDataNote().observe(viewLifecycleOwner, Observer<String> {
+        adapter.getNote().observe(viewLifecycleOwner, Observer<Note> {
             saveNoteToDetail(it)
         })
     }
 
     // Luu toan bo noi dung note: id, content, color, status vao Storage.
-    private fun saveNoteToDetail(content: String) {
-        App.instance.getStorage().content = content
-        //App.instance.getStorage().dateTime = note.getDateTime()
-        Log.i(TAG, "Save Note:${App.instance.getStorage().content}")
+    private fun saveNoteToDetail(note: Note) {
+        viewModel.saveDetail(note)
         mCallBack.showFrag(M002DetailNoteFragment.TAG, null, true)
     }
 

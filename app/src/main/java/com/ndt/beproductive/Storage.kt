@@ -9,8 +9,7 @@ class Storage {
 
     var id: Int? = null
     lateinit var content: String
-
-    //lateinit var dateTime: String
+    lateinit var dateTime: String
     var color: Int? = null
 
     // Luu vi tri Int cua hinh anh trong list.

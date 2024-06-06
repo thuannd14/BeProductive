@@ -8,11 +8,10 @@ class M002EditVM : BaseViewModel() {
         val TAG: String = M002EditVM::class.java.name
     }
 
-    private var idNote = App.instance.getStorage().id
-
-    fun getUpdated(contentNew: String) {
-        Log.i(TAG, "ID: $idNote content: $contentNew")
-        myDB.updateNote(idNote!!, contentNew, "123", 123)
+    fun getUpdated(id: Int, contentNew: String, color: Int) {
+        Log.i(TAG, "ID: $id content: $contentNew color: $id")
+        myDB.updateNote(id, contentNew, color)
         App.instance.getStorage().content = contentNew
+        App.instance.getStorage().color = color
     }
 }

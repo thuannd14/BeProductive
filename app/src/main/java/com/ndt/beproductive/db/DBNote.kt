@@ -45,7 +45,7 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
         values.put(COL_DATE, note.getDateTime())
         values.put(COL_COLOR, note.getColor())
         dbNote.insert(TABLE_NAME, null, values)
-        Log.i(TAG, "Saved success")
+        Log.i(TAG, "Saved success: ${note.getDateTime()}")
     }
 
     // update note.
@@ -60,12 +60,13 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
         Log.i(TAG, "Updated success")
     }
 
-    // update status note
-    fun updateStatus(id: Int, status: Int) {
+    fun updateNote(id: Int, contentNote: String, color: Int) {
         dbNote = this.writableDatabase
         val values = ContentValues()
-        values.put(COL_STATUS, status)
+        values.put(COL_NOTE, contentNote)
+        values.put(COL_COLOR, color)
         dbNote.update(TABLE_NAME, values, "ID=?", arrayOf(id.toString()))
+        Log.i(TAG, "Updated success")
     }
 
     // xoa note.
@@ -77,7 +78,7 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
 
     // Hien thi cac note len RecyclerView.
     // tra ve la ds note lay tu db.
-    @SuppressLint("Range")
+    @SuppressLint("Range", "Recycle")
     fun showNote(): MutableList<Note> {
         dbNote = this.writableDatabase
         var cursor: Cursor? = null
@@ -91,7 +92,7 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
                         val note = Note()
                         note.setID(cursor.getInt(cursor.getColumnIndex(COL_ID)))
                         note.setContent(cursor.getString(cursor.getColumnIndex(COL_NOTE)))
-                        note.setDateTime(cursor.getString(cursor.getColumnIndex(COL_STATUS)))
+                        note.setDateTime(cursor.getString(cursor.getColumnIndex(COL_DATE)))
                         note.setColor(cursor.getInt(cursor.getColumnIndex(COL_COLOR)))
                         noteList.add(note)
                         Log.i(TAG, "DONE!!")

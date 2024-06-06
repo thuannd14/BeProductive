@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.ndt.beproductive.OnDialogCallBack
 import com.ndt.beproductive.PickerDialog
+import com.ndt.beproductive.R
 import com.ndt.beproductive.databinding.M002NoteTakingCreateANoteFragBinding
 import com.ndt.beproductive.viewmodel.M002CreateNoteVM
 
@@ -14,11 +15,17 @@ class M002CreateNoteFrag : BaseFrag<M002NoteTakingCreateANoteFragBinding, M002Cr
         val TAG: String = M002CreateNoteFrag::class.java.name
     }
 
+    private var colorValue: Int? = null
+
     override fun initViews() {
         binding.btCreateNote.setOnClickListener {
             var contentNote = binding.edContentNote.text.toString().trim()
-            Log.i(TAG, "Content: $contentNote")
-            viewModel.saveNote(contentNote)
+            if (colorValue == null) {
+                colorValue = ContextCompat.getColor(mContext, R.color.gray_pick)
+                viewModel.saveNoteColor(contentNote, colorValue!!)
+            }
+            viewModel.saveNoteColor(contentNote, colorValue!!)
+            Log.i(TAG, "Content: $contentNote $colorValue")
             mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, false)
         }
 
@@ -35,49 +42,49 @@ class M002CreateNoteFrag : BaseFrag<M002NoteTakingCreateANoteFragBinding, M002Cr
     private fun changeBackGround(key: String?, data: Any?) {
         if (key == PickerDialog.IV_Yellow) {
             // Chuyen int thanh ma mau.
-            val colorValue = ContextCompat.getColor(mContext, data as Int)
+            colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")
-            binding.edContentNote.setBackgroundColor(colorValue)
+            binding.edContentNote.setBackgroundColor(colorValue!!)
         } else if (key == PickerDialog.IV_Orange) {
-            val colorValue = ContextCompat.getColor(mContext, data as Int)
+            colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")
-            binding.edContentNote.setBackgroundColor(colorValue)
+            binding.edContentNote.setBackgroundColor(colorValue!!)
         } else if (key == PickerDialog.IV_LRed) {
-            val colorValue = ContextCompat.getColor(mContext, data as Int)
+            colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")
-            binding.edContentNote.setBackgroundColor(colorValue)
+            binding.edContentNote.setBackgroundColor(colorValue!!)
         } else if (key == PickerDialog.IV_LPink) {
-            val colorValue = ContextCompat.getColor(mContext, data as Int)
+            colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")
-            binding.edContentNote.setBackgroundColor(colorValue)
+            binding.edContentNote.setBackgroundColor(colorValue!!)
         } else if (key == PickerDialog.IV_Purple) {
-            val colorValue = ContextCompat.getColor(mContext, data as Int)
+            colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")
-            binding.edContentNote.setBackgroundColor(colorValue)
+            binding.edContentNote.setBackgroundColor(colorValue!!)
         } else if (key == PickerDialog.IV_Blue) {
-            val colorValue = ContextCompat.getColor(mContext, data as Int)
+            colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")
-            binding.edContentNote.setBackgroundColor(colorValue)
+            binding.edContentNote.setBackgroundColor(colorValue!!)
         } else if (key == PickerDialog.IV_HeaveBlue) {
-            val colorValue = ContextCompat.getColor(mContext, data as Int)
+            colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")
-            binding.edContentNote.setBackgroundColor(colorValue)
+            binding.edContentNote.setBackgroundColor(colorValue!!)
         } else if (key == PickerDialog.IV_Green) {
-            val colorValue = ContextCompat.getColor(mContext, data as Int)
+            colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")
-            binding.edContentNote.setBackgroundColor(colorValue)
+            binding.edContentNote.setBackgroundColor(colorValue!!)
         } else if (key == PickerDialog.IV_LGreen) {
-            val colorValue = ContextCompat.getColor(mContext, data as Int)
+            colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")
-            binding.edContentNote.setBackgroundColor(colorValue)
+            binding.edContentNote.setBackgroundColor(colorValue!!)
         } else if (key == PickerDialog.IV_Gray) {
-            val colorValue = ContextCompat.getColor(mContext, data as Int)
+            colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")
-            binding.edContentNote.setBackgroundColor(colorValue)
+            binding.edContentNote.setBackgroundColor(colorValue!!)
         } else if (key == PickerDialog.IV_LYellow) {
-            val colorValue = ContextCompat.getColor(mContext, data as Int)
+            colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")
-            binding.edContentNote.setBackgroundColor(colorValue)
+            binding.edContentNote.setBackgroundColor(colorValue!!)
         }
     }
 

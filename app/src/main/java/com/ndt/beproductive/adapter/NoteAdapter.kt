@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -32,10 +34,15 @@ class NoteAdapter(
     }
 
     private var liveDataNote: MutableLiveData<String> = MutableLiveData<String>()
+    private var ldNote: MutableLiveData<Note> = MutableLiveData<Note>()
     private var liveDataID: MutableLiveData<Int> = MutableLiveData<Int>()
 
-    fun getLiveDataNote(): MutableLiveData<String> {
+    fun getLiveDataContentNote(): MutableLiveData<String> {
         return liveDataNote
+    }
+
+    fun getNote(): MutableLiveData<Note> {
+        return ldNote
     }
 
     fun getLiveDataID(): MutableLiveData<Int> {
@@ -50,11 +57,10 @@ class NoteAdapter(
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
         val note: Note = noteList[position]
         holder.tvContent.text = note.getContent()
-        //holder.tvDateTime.text = note.getDateTime()
-        holder.itemView.tag = note.getContent()
-        App.instance.getStorage().id = note.getID()
-
-        Log.i(TAG, "${note.getContent()} \n ${note.getDateTime()} \n ${note.getID()} ")
+        holder.tvDateTime.text = note.getDateTime()
+        holder.lnContentBg.setBackgroundColor(note.getColor())
+        holder.itemView.tag = note
+        //App.instance.getStorage().id = note.getID() // Neu de the nao se la lay id cua tk dau ds.
     }
 
 
@@ -78,7 +84,6 @@ class NoteAdapter(
         notifyDataSetChanged()
     }
 
-    private var id: Int = 0
 
     fun editNote(pos: Int) {
         val itemNote = noteList[pos]
@@ -93,18 +98,26 @@ class NoteAdapter(
 
     inner class NoteHolder(view: View) : ViewHolder(view) {
         val tvContent: TextView = view.findViewById(R.id.tv_content_note)
-        //val tvDateTime: TextView = view.findViewById(R.id.tv_date)
+        val tvDateTime: TextView = view.findViewById(R.id.tv_date)
+        val lnContentBg: LinearLayout = view.findViewById(R.id.ln_content)
 
         init {
             view.setOnClickListener {
                 Log.i(TAG, "${view.tag}")
-                goToDetailNote(view.tag as String)
+                it.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        context, androidx.appcompat.R.anim.abc_popup_enter
+                    )
+                )
+                goToDetailNote(view.tag as Note)
             }
         }
     }
 
-    private fun goToDetailNote(noteContent: String) {
-        getLiveDataNote().postValue(noteContent)
-        Log.i(TAG, "Success ${noteContent}!")
+    private fun goToDetailNote(note: Note) {
+        getNote().postValue(note)
+        // day moi la cap nhat id dung cai can chon.
+        App.instance.getStorage().id = note.getID()
+        Log.i(TAG, "Success ${note}!")
     }
 }

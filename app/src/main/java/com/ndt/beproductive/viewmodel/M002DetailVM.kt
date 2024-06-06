@@ -7,6 +7,4 @@ class M002DetailVM: BaseViewModel() {
         val TAG: String = M002DetailVM::class.java.name
     }
 
-    private var contentNote = App.instance.getStorage().content
-    //private var dateTimeNote = App.instance.getStorage().dateTime
 }
