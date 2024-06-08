@@ -2,9 +2,7 @@ package com.ndt.beproductive.act
 
 import android.util.Log
 import com.ndt.beproductive.databinding.ActivityMainBinding
-import com.ndt.beproductive.fragment.M002CreateNoteFrag
-import com.ndt.beproductive.fragment.M002TakingEmptyFrag
-import com.ndt.beproductive.fragment.M003ChangeThemeFrag
+import com.ndt.beproductive.fragment.M00SplashFrag
 import com.ndt.beproductive.viewmodel.CommonVM
 
 class MainActivity : BaseAct<ActivityMainBinding, CommonVM>() {
@@ -15,7 +13,7 @@ class MainActivity : BaseAct<ActivityMainBinding, CommonVM>() {
 
     override fun initViews() {
         Log.i(TAG, "Main act")
-        showFrag(M002TakingEmptyFrag.TAG, null, false)
+        showFrag(M00SplashFrag.TAG, null, false)
     }
 
     override fun initViewBinding(): ActivityMainBinding {

@@ -34,33 +34,26 @@ class M003StartTimeVM : BaseViewModel(), CoroutineScope {
         return secondFocus
     }
 
-
-    private var minute: Int = 2
+    private var minute: Int = 0
     private var second: Int = 60
 
-
-    fun startCountDownFocus(): Int {
+    fun startCountDownFocus(action: () -> Unit) {
+        Log.i(TAG, "startCountDownFocus")
         launch(Dispatchers.IO) {
             for (i in minute downTo 0) {
                 for (j in second downTo 0) {
                     if (job.isCancelled) break
-                    Thread.sleep(1000)
+                    Thread.sleep(50)
                     launch(Dispatchers.Main) {
-                        if (j >= 0) {
-                            secondFocus.postValue(j)
-                            Log.i(TAG, "post time: $i:$j")
-                        }
+                        secondFocus.postValue(j)
+                        Log.i(TAG, "post time: $i:$j")
                     }
-                    if (i >= 0) {
-                        minuteFocus.postValue(i)
-                    }
+                    minuteFocus.postValue(i)
                 }
-
             }
+            action()
         }
-        return 0
     }
-
 
     fun getCombinedTimeFocus(): LiveData<Pair<Int, Int>> {
         // live data cua minute
@@ -81,9 +74,9 @@ class M003StartTimeVM : BaseViewModel(), CoroutineScope {
         return mediatorFocus
     }
 
-
     override fun onCleared() {
         super.onCleared()
+        mediatorFocus.removeSource(mediatorFocus)
         job.cancel() // huy bo job.
     }
 }

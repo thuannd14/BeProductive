@@ -1,6 +1,6 @@
 package com.ndt.beproductive
 
-import android.net.Uri
+import android.graphics.Bitmap
 
 class Storage {
     companion object {
@@ -18,4 +18,9 @@ class Storage {
     // Luu noi dung ghi chu o main focus screen.
     var contentText: String? = null
 
+    // check day co phai lan dau vao app ko?
+    var isFirstTime: Boolean = false
+    fun setIsFirstTime(isFirstTime: Boolean) {
+        this.isFirstTime = isFirstTime
+    }
 }

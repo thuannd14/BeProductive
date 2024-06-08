@@ -11,7 +11,7 @@
         android:layout_height="56dp"
         android:gravity="center"
         android:padding="3dp"
-        android:weightSum="3">
+        android:weightSum="4">
 
         <ImageView
             android:id="@+id/iv_reject_color"
@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:fontFamily="@font/inter_font"
             android:gravity="start|center"
             android:text="@string/txt_pick_a_color"

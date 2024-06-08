@@ -42,9 +42,19 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
             mCallBack.showFrag(M002CreateNoteFrag.TAG, null, true)
         }
 
+         //settting
         binding.includeMenu.ivSetting.setOnClickListener {
             mCallBack.showFrag(M005SettingFrag.TAG, null, true)
         }
+
+        binding.includeMenu.ivPomodoro.setOnClickListener {
+            mCallBack.showFrag(M003MainFocusFrag.TAG, null, true)
+        }
+
+        // time focus.
+//        binding.includeMenu.ivSetting.setOnClickListener {
+//            mCallBack.showFrag(M003MainFocusFrag.TAG, null, true)
+//        }
         // Lay ds note tu vm.
         noteList = viewModel.getNoteList()
         Log.i(TAG, "NOTE LIST: $noteList")
@@ -64,7 +74,7 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
                 binding.includeMenu.ivNotes.setColorFilter(color, PorterDuff.Mode.SRC_IN)
                 mCallBack.showFrag(TAG, null, true)
             }
-        } else if (R.id.iv_explore == EXPLORE) {
+        } else if (R.id.iv_explore == FOCUS_TIME) {
             binding.includeMenu.ivExplore.setOnClickListener {
                 it.startAnimation(
                     AnimationUtils.loadAnimation(
@@ -72,7 +82,7 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
                     )
                 )
                 binding.includeMenu.ivExplore.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                mCallBack.showFrag(TAG, null, true)
+                mCallBack.showFrag(M003MainFocusFrag.TAG, null, true)
             }
         } else if (R.id.iv_pomodoro == EXPLORE) {
             binding.includeMenu.ivPomodoro.setOnClickListener {
@@ -82,9 +92,9 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
                     )
                 )
                 binding.includeMenu.ivPomodoro.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                mCallBack.showFrag(TAG, null, true)
+                //mCallBack.showFrag(, null, true)
             }
-        } else if (R.id.iv_setting == EXPLORE) {
+        } else if (R.id.iv_setting == SETTING) {
             binding.includeMenu.ivSetting.setOnClickListener {
                 it.startAnimation(
                     AnimationUtils.loadAnimation(
@@ -92,7 +102,7 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
                     )
                 )
                 binding.includeMenu.ivSetting.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                mCallBack.showFrag(TAG, null, true)
+                mCallBack.showFrag(M005SettingFrag.TAG, null, true)
             }
         }
     }

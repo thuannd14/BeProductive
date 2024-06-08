@@ -27,6 +27,7 @@ class PickerDialog(private var context: Context, private var callBack: OnDialogC
         const val IV_LGreen = "IV_LGreen"
         const val IV_LYellow = "IV_LYellow"
         const val IV_Gray = "IV_Gray"
+        const val EXIT = "EXIT"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +40,14 @@ class PickerDialog(private var context: Context, private var callBack: OnDialogC
     }
 
     private fun initViews() {
+        // xu lí nút exit trong dialog.
+        val btExit = findViewById<ImageView>(R.id.iv_reject_color)
+        btExit.setOnClickListener {
+            Log.i(TAG, "Exit")
+            callBack.callBack(EXIT, null)
+            setCanceledOnTouchOutside(true)
+            dismiss()
+        }
         Log.i(TAG, "Context: $context")
         val ivYellow = findViewById<ImageView>(R.id.iv_yellow)
         val ivOrange = findViewById<ImageView>(R.id.iv_orange)

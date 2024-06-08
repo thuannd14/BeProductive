@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,16 +18,15 @@ import com.ndt.beproductive.viewmodel.M005SettingVM
 class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
     companion object {
         val TAG: String = M005SettingFrag::class.java.name
-        const val IMG_URI = "IMG_URI"
+        const val IMG_PATH = "IMG_PATH"
     }
 
-    private var mUri: Uri? = null
-    private var mBitmap: Bitmap? = null
     private lateinit var openGalleryLauncher: ActivityResultLauncher<Intent>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
     override fun initViews() {
 
+        binding.ciUsername.setImageBitmap(viewModel.convertToBitMap())
         binding.ciUsername.setOnClickListener {
             if (mContext.checkSelfPermission(
                     Manifest.permission.READ_EXTERNAL_STORAGE
@@ -40,7 +38,6 @@ class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
             }
         }
         setAvatar()
-
 
         binding.includeMenu.ivNotes.setOnClickListener {
             mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, true)
@@ -72,6 +69,7 @@ class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
                         val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(
                             requireActivity().contentResolver, uri
                         )
+                        viewModel.saveImgPath(bitmap)
                         binding.ciUsername.setImageBitmap(bitmap)
                     } catch (e: Exception) {
                         e.printStackTrace()

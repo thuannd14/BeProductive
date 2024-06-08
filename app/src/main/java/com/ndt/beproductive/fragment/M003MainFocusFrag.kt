@@ -15,12 +15,11 @@ class M003MainFocusFrag : BaseFrag<M003FocusMainFragBinding, M003MainFocusVM>() 
 
     override fun initViews() {
         var indexImg = viewModel.getIndexImg()
-
         Log.i(TAG, "Img: $indexImg")
         binding.ivSelectThemeOnFocus.setOnClickListener {
             mCallBack.showFrag(M003ChangeThemeFrag.TAG, null, true)
         }
-        // cong them 1 vi viewpager tinh bat dau tu 1.
+
         binding.clMain.setBackgroundResource(viewModel.ARR_IMG[indexImg])
 
         // start focus.

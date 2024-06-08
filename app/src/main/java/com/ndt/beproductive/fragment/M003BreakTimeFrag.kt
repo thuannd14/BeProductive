@@ -17,17 +17,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
-class M003BreakTimeFrag : BaseFrag<M003BreakTimeFragBinding, M003BreakTimeVM>(), CoroutineScope {
+class M003BreakTimeFrag : BaseFrag<M003BreakTimeFragBinding, M003BreakTimeVM>() {
     companion object {
         val TAG: String = M003BreakTimeFrag::class.java.name
     }
 
-    private var job: Job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.IO + job
 
     private var indexCur = App.instance.getStorage().indexImg
-    private lateinit var contentText: String
     private var getMinuteFocus: Int = 0
     private var getSecondFocus: Int = 0
 
@@ -40,17 +36,7 @@ class M003BreakTimeFrag : BaseFrag<M003BreakTimeFragBinding, M003BreakTimeVM>(),
             handleExit()
         }
 
-        // vao thoi gian nghi.
         startBreak()
-        launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) {
-                startBreak()
-            }
-            withContext(Dispatchers.IO) {
-                mCallBack.showFrag(M003StartTimeFrag.TAG, null, true)
-            }
-        }
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -79,7 +65,6 @@ class M003BreakTimeFrag : BaseFrag<M003BreakTimeFragBinding, M003BreakTimeVM>(),
         builder.setNegativeButton("No, stay", DialogInterface.OnClickListener { dialog, which ->
             mCallBack.showFrag(M003MainFocusFrag.TAG, null, false)
         })
-
         builder.create().show()
     }
 

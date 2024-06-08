@@ -13,6 +13,8 @@ import com.ndt.beproductive.viewmodel.M003StartTimeVM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class M003StartTimeFrag : BaseFrag<M003StartTimeFragBinding, M003StartTimeVM>(), CoroutineScope {
@@ -31,8 +33,11 @@ class M003StartTimeFrag : BaseFrag<M003StartTimeFragBinding, M003StartTimeVM>(),
     private var getSecondFocus: Int = 0
 
     override fun initViews() {
+        Log.i(TAG, "InitStartTime")
         // xu li dem nguoc.
-        startTime()
+
+
+       startTime()
 
         //Hien thi text.
         showContent()
@@ -42,18 +47,8 @@ class M003StartTimeFrag : BaseFrag<M003StartTimeFragBinding, M003StartTimeVM>(),
 
         // xu li nut exit. Neu đồng ý exit thì về m003MainScreen.Nếu ko vẫn tiếp tục đếm.
         binding.btExit.setOnClickListener {
-            //handleExit()
             showExitDialog()
         }
-
-//        launch(Dispatchers.Main) {
-//            withContext(Dispatchers.IO) {
-//                startTime()
-//            }
-//            withContext(Dispatchers.IO) {
-//                mCallBack.showFrag(M003BreakTimeFrag.TAG, null, true)
-//            }
-//        }
     }
 
     private fun showExitDialog() {
@@ -62,7 +57,7 @@ class M003StartTimeFrag : BaseFrag<M003StartTimeFragBinding, M003StartTimeVM>(),
                 if (key == ExitDialog.KEY_YES) {
                     mCallBack.showFrag(M003MainFocusFrag.TAG, null, false)
                 } else if (key == ExitDialog.KEY_NO) {
-                    // ko can lam gi.
+                    // Ko can lam gi vi da setCancel khi bam vao nut exit.
                 }
             }
         })
@@ -77,8 +72,11 @@ class M003StartTimeFrag : BaseFrag<M003StartTimeFragBinding, M003StartTimeVM>(),
 
     @SuppressLint("SetTextI18n")
     private fun startTime() {
-
-        viewModel.startCountDownFocus()
+        viewModel.startCountDownFocus{
+            launch(Dispatchers.Main) {
+                mCallBack.showFrag(M003BreakTimeFrag.TAG, null, false)
+            }
+        }
         viewModel.getCombinedTimeFocus().observe(viewLifecycleOwner, Observer { pair ->
             val (value1, value2) = pair
             getMinuteFocus = value1
@@ -87,31 +85,8 @@ class M003StartTimeFrag : BaseFrag<M003StartTimeFragBinding, M003StartTimeVM>(),
             Log.i(TAG, "Second: $getSecondFocus")
             binding.tvTimeCountDown.text = "$getMinuteFocus:$getSecondFocus"
         })
-
-//            val rs = viewModel.startCountDownFocus()
-//            if (rs == 0) {
-//                withContext(Dispatchers.IO) {
-//                    mCallBack.showFrag(M003BreakTimeFrag.TAG, null, true)
-//                }
-//            }
     }
 
-//    private fun handleExit() {
-//        val builder: AlertDialog.Builder = AlertDialog.Builder(mContext)
-//        builder.setTitle("Back to main screen?")
-//        builder.setMessage("Are you sure?")
-//        builder.setPositiveButton("Yes, back", DialogInterface.OnClickListener {
-//            // tat coroutine di va back ve m003.
-//                dialog, which ->
-//            mCallBack.showFrag(M003MainFocusFrag.TAG, null, false)
-//        })
-//
-//        builder.setNegativeButton("No, stay", DialogInterface.OnClickListener { dialog, which ->
-//            mCallBack.showFrag(M003MainFocusFrag.TAG, null, false)
-//        })
-//
-//        builder.create().show()
-//    }
 
     override fun initViewBinding(
         inflater: LayoutInflater, container: ViewGroup?

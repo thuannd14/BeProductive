@@ -5,6 +5,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.ndt.beproductive.App
 import com.ndt.beproductive.databinding.M00SplashFragBinding
 import com.ndt.beproductive.viewmodel.CommonVM
 
@@ -21,12 +22,17 @@ class M00SplashFrag : BaseFrag<M00SplashFragBinding, CommonVM>() {
     }
 
     private fun goToMain() {
-        mCallBack.showFrag(M001OnBoarding1Frag.TAG, null, false)
+        if (!App.instance.getStorage().isFirstTime) {
+            mCallBack.showFrag(M001OnBoarding1Frag.TAG, null, false)
+            App.instance.getStorage().setIsFirstTime(true)
+        } else if (App.instance.getStorage().isFirstTime) {
+            mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, false)
+        }
+
     }
 
     override fun initViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
+        inflater: LayoutInflater, container: ViewGroup?
     ): M00SplashFragBinding {
         return M00SplashFragBinding.inflate(inflater, container, false)
     }

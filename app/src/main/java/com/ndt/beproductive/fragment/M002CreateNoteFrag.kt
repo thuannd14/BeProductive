@@ -40,7 +40,9 @@ class M002CreateNoteFrag : BaseFrag<M002NoteTakingCreateANoteFragBinding, M002Cr
     }
 
     private fun changeBackGround(key: String?, data: Any?) {
-        if (key == PickerDialog.IV_Yellow) {
+        if (key == PickerDialog.EXIT) {
+            // Ko can lam gi vi da setCancel khi bam vao nut exit.
+        } else if (key == PickerDialog.IV_Yellow) {
             // Chuyen int thanh ma mau.
             colorValue = ContextCompat.getColor(mContext, data as Int)
             Log.i(TAG, "Data: $colorValue")

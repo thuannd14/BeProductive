@@ -34,7 +34,7 @@ class M003BreakTimeVM : BaseViewModel(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO + job
 
-    private var minutesBreak: Int = 5
+    private var minutesBreak: Int = 4
     private var secondsBreak: Int = 60
 
 
@@ -47,6 +47,7 @@ class M003BreakTimeVM : BaseViewModel(), CoroutineScope {
                     launch(Dispatchers.Main) {
                         if (j >= 0) {
                             secondTimeBreak.postValue(j)
+                            Log.i(M003StartTimeVM.TAG, "post time: $i:$j")
                         }
                     }
                     if (i >= 0) {
@@ -80,6 +81,7 @@ class M003BreakTimeVM : BaseViewModel(), CoroutineScope {
 
     override fun onCleared() {
         super.onCleared()
+        mediatorBreak.removeSource(mediatorBreak)
         job.cancel() // huy bo job.
     }
 }

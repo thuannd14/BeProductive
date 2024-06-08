@@ -7,9 +7,16 @@ import com.ndt.beproductive.databinding.M001OnBoarding1FragBinding
 import com.ndt.beproductive.viewmodel.CommonVM
 
 class M001OnBoarding1Frag : BaseFrag<M001OnBoarding1FragBinding, CommonVM>() {
+
     companion object {
         val TAG: String = M001OnBoarding1Frag::class.java.name
     }
+
+    // tao ra 1 bien de kiem day co phai la lan dau vao app hay ko.
+    // Neu false thi la lan dau: di het M001.
+    // Neu true nghia la khong phai lan dau vao app.
+    // nhay tu splash den thang M002TalkingEmpty luon.
+    private var isFlag: Boolean = false
 
     override fun initViews() {
         Log.i(TAG, "On boarding 1")
