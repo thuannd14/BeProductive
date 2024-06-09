@@ -12,6 +12,7 @@ object CommonUtils {
         pref.edit().putString(key, value).apply()
     }
 
+
     fun getPref(key: String?): String? {
         return pref.getString(key, null)
     }

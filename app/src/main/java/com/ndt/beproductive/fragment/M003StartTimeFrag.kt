@@ -55,7 +55,9 @@ class M003StartTimeFrag : BaseFrag<M003StartTimeFragBinding, M003StartTimeVM>(),
         val exitDialog = ExitDialog(mContext, object : OnDialogCallBack {
             override fun callBack(key: String?, data: Any?) {
                 if (key == ExitDialog.KEY_YES) {
+                    job.cancel()
                     mCallBack.showFrag(M003MainFocusFrag.TAG, null, false)
+
                 } else if (key == ExitDialog.KEY_NO) {
                     // Ko can lam gi vi da setCancel khi bam vao nut exit.
                 }

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import com.ndt.beproductive.fragment.M003BreakTimeFrag
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -38,34 +39,30 @@ class M003BreakTimeVM : BaseViewModel(), CoroutineScope {
     private var secondsBreak: Int = 60
 
 
-    fun startCountDownBreak(): Int {
+    fun startCountDownBreak(action: () -> Unit) {
+        Log.i(TAG, "startCountDownBreak")
         launch(Dispatchers.IO) {
             for (i in minutesBreak downTo 0) {
                 for (j in secondsBreak downTo 0) {
                     if (job.isCancelled) break
-                    Thread.sleep(1000)
+                    Thread.sleep(50)
                     launch(Dispatchers.Main) {
-                        if (j >= 0) {
-                            secondTimeBreak.postValue(j)
-                            Log.i(M003StartTimeVM.TAG, "post time: $i:$j")
-                        }
+                        secondTimeBreak.postValue(j)
+                        Log.i(M003BreakTimeFrag.TAG, "post time: $i:$j")
                     }
-                    if (i >= 0) {
-                        minuteTimeBreak.postValue(i)
-                    }
+                    minuteTimeBreak.postValue(i)
                 }
-
             }
+            action()
         }
-        return 0
     }
 
     fun getCombinedTimeBreak(): LiveData<Pair<Int, Int>> {
         // live data cua minute
-        mediatorBreak.addSource(getMinuteBreak()) { minutesBreak ->
+        mediatorBreak.addSource(getMinuteBreak()) { minuteBreak ->
             val secondBreak = getSecondBreak().value
             if (secondBreak != null) {
-                mediatorBreak.value = Pair(minutesBreak, secondBreak)
+                mediatorBreak.value = Pair(minuteBreak, secondBreak)
             }
         }
 
@@ -73,7 +70,7 @@ class M003BreakTimeVM : BaseViewModel(), CoroutineScope {
         mediatorBreak.addSource(getSecondBreak()) { secondBreak ->
             val minuteBreak = getMinuteBreak().value
             if (minuteBreak != null) {
-                mediatorBreak.value = Pair(minutesBreak, secondBreak)
+                mediatorBreak.value = Pair(minuteBreak, secondBreak)
             }
         }
         return mediatorBreak
@@ -81,7 +78,6 @@ class M003BreakTimeVM : BaseViewModel(), CoroutineScope {
 
     override fun onCleared() {
         super.onCleared()
-        mediatorBreak.removeSource(mediatorBreak)
         job.cancel() // huy bo job.
     }
 }

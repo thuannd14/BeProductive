@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,15 +19,20 @@ import com.ndt.beproductive.viewmodel.M005SettingVM
 class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
     companion object {
         val TAG: String = M005SettingFrag::class.java.name
-        const val IMG_PATH = "IMG_PATH"
+        const val URI_PATH = "URI_PATH"
     }
 
     private lateinit var openGalleryLauncher: ActivityResultLauncher<Intent>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    private var myUri: Uri? = null
 
     override fun initViews() {
-
-        binding.ciUsername.setImageBitmap(viewModel.convertToBitMap())
+        myUri = viewModel.getUri()
+        if(myUri != null){
+            binding.ciUsername.setImageBitmap( MediaStore.Images.Media.getBitmap(
+                requireActivity().contentResolver, myUri
+            ))
+        }
         binding.ciUsername.setOnClickListener {
             if (mContext.checkSelfPermission(
                     Manifest.permission.READ_EXTERNAL_STORAGE
@@ -64,12 +70,16 @@ class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
                 if (it.resultCode == Activity.RESULT_OK) {
                     val intent = it.data ?: return@registerForActivityResult
                     val uri = intent.data
+                    if (uri == null) {
+                        showNotify("Uri null")
+                    } else {
+                        viewModel.saveUri(uri)
+                    }
 
                     try {
                         val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(
                             requireActivity().contentResolver, uri
                         )
-                        viewModel.saveImgPath(bitmap)
                         binding.ciUsername.setImageBitmap(bitmap)
                     } catch (e: Exception) {
                         e.printStackTrace()

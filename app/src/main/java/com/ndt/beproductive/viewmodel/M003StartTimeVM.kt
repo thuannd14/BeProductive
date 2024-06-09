@@ -34,7 +34,7 @@ class M003StartTimeVM : BaseViewModel(), CoroutineScope {
         return secondFocus
     }
 
-    private var minute: Int = 0
+    private var minute: Int = 2
     private var second: Int = 60
 
     fun startCountDownFocus(action: () -> Unit) {
@@ -76,7 +76,6 @@ class M003StartTimeVM : BaseViewModel(), CoroutineScope {
 
     override fun onCleared() {
         super.onCleared()
-        mediatorFocus.removeSource(mediatorFocus)
         job.cancel() // huy bo job.
     }
 }

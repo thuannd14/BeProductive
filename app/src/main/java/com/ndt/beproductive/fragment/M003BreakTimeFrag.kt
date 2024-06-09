@@ -1,26 +1,29 @@
 package com.ndt.beproductive.fragment
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.ndt.beproductive.App
+import com.ndt.beproductive.ExitDialog
+import com.ndt.beproductive.OnDialogCallBack
 import com.ndt.beproductive.databinding.M003BreakTimeFragBinding
 import com.ndt.beproductive.viewmodel.M003BreakTimeVM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
-class M003BreakTimeFrag : BaseFrag<M003BreakTimeFragBinding, M003BreakTimeVM>() {
+class M003BreakTimeFrag : BaseFrag<M003BreakTimeFragBinding, M003BreakTimeVM>(), CoroutineScope {
     companion object {
         val TAG: String = M003BreakTimeFrag::class.java.name
     }
+
+    private var job: Job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.IO + job
 
 
     private var indexCur = App.instance.getStorage().indexImg
@@ -39,9 +42,28 @@ class M003BreakTimeFrag : BaseFrag<M003BreakTimeFragBinding, M003BreakTimeVM>() 
         startBreak()
     }
 
+    private fun handleExit() {
+        val exitDialog = ExitDialog(mContext, object : OnDialogCallBack {
+            override fun callBack(key: String?, data: Any?) {
+                if (key == ExitDialog.KEY_YES) {
+                    job.cancel()
+                    mCallBack.showFrag(M003MainFocusFrag.TAG, null, false)
+                } else if (key == ExitDialog.KEY_NO) {
+                    // ko can lam gi.
+                }
+            }
+        })
+
+        exitDialog.show()
+    }
+
     @SuppressLint("SetTextI18n")
     private fun startBreak() {
-        viewModel.startCountDownBreak()
+        viewModel.startCountDownBreak{
+            launch(Dispatchers.Main) {
+                mCallBack.showFrag(M003StartTimeFrag.TAG, null, false)
+            }
+        }
         viewModel.getCombinedTimeBreak().observe(viewLifecycleOwner, Observer { pair ->
             val (value1, value2) = pair
             getMinuteFocus = value1
@@ -52,21 +74,6 @@ class M003BreakTimeFrag : BaseFrag<M003BreakTimeFragBinding, M003BreakTimeVM>() 
         })
     }
 
-    private fun handleExit() {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(mContext)
-        builder.setTitle("Back to main screen?")
-        builder.setMessage("Are you sure?")
-        builder.setPositiveButton("Yes, back", DialogInterface.OnClickListener {
-            // tat coroutine di va back ve m003.
-                dialog, which ->
-            mCallBack.showFrag(M003MainFocusFrag.TAG, null, false)
-        })
-
-        builder.setNegativeButton("No, stay", DialogInterface.OnClickListener { dialog, which ->
-            mCallBack.showFrag(M003MainFocusFrag.TAG, null, false)
-        })
-        builder.create().show()
-    }
 
     override fun initViewBinding(
         inflater: LayoutInflater, container: ViewGroup?
