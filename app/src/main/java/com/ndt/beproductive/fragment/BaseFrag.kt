@@ -11,13 +11,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import com.ndt.beproductive.OnChangeMenu
+import com.ndt.beproductive.OnCallbackAPI
 import com.ndt.beproductive.OnMainCallBack
 import com.ndt.beproductive.viewmodel.BaseViewModel
 
 
-abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.OnClickListener
-     {
+abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.OnClickListener, OnCallbackAPI {
 
     companion object {
         val TAG: String = BaseFrag::class.java.name
@@ -52,6 +51,7 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
     ): View? {
         binding = initViewBinding(inflater, container)
         viewModel = ViewModelProvider(this)[getClassVM()]
+        viewModel.setActionCallBack(this)
         Log.i(TAG, "Base Frag")
         return binding.root
     }
@@ -87,6 +87,20 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
 
     protected open fun showNotify(msgID: Int) {
         Toast.makeText(context, msgID, Toast.LENGTH_LONG).show()
+    }
+
+    override fun apiSuccess(key: String, data: Any?) {
+        // lam gi day neu thanh cong.
+    }
+
+    override fun apiError(key: String, code: Int, data: Any) {
+        if (code == 401) {
+            // Loi call api loi thi call ve m003.
+            //mCallBack.showFrag(M004)
+            Toast.makeText(context, "Phien da het han!", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, "Error: " + code + "DaTA " + data, Toast.LENGTH_LONG).show()
+        }
     }
 
     /*

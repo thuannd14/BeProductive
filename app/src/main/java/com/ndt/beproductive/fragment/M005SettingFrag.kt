@@ -27,12 +27,14 @@ class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
     private var myUri: Uri? = null
 
     override fun initViews() {
-        myUri = viewModel.getUri()
-        if(myUri != null){
-            binding.ciUsername.setImageBitmap( MediaStore.Images.Media.getBitmap(
-                requireActivity().contentResolver, myUri
-            ))
-        }
+
+//        myUri = viewModel.getUri()
+//        if(myUri != null){
+//            binding.ciUsername.setImageBitmap( MediaStore.Images.Media.getBitmap(
+//                requireActivity().contentResolver, myUri
+//            ))
+//        }
+
         binding.ciUsername.setOnClickListener {
             if (mContext.checkSelfPermission(
                     Manifest.permission.READ_EXTERNAL_STORAGE
@@ -59,7 +61,6 @@ class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
                 if (isGranted) {
                     openGallery()
-
                 } else {
                     showNotify("Accept the permission?")
                 }

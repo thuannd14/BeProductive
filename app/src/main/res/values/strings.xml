@@ -36,4 +36,12 @@
     <string name="txt_no_stay">No, stay!!</string>
     <string name="txt_confirm_exit">Are you sure to exit?</string>
     <string name="txt_pick_a_color">Pick a color</string>
+    <string name="txt_title_article">Apple\'s AI push will reportedly be called Apple Intelligence, of course</string>
+    <string name="txt_content_article"><![CDATA[The on-chain analytics firm CryptoQuant has explained why Bitcoin and Ethereum have recently appeared to be on a path towards acceleration.Bitcoin & Ethereum Are Looking Bullish In On-Chain Metri… [+268 chars]]]></string>
+    <string name="txt_author">James</string>
+    <string name="txt_published_at">2024-06-09</string>
+    <string name="txt_explore">Explore</string>
+    <string name="txt_popular">Popular</string>
+    <string name="txt_new_articles">New articles</string>
+    <string name="txt_title_popular">Healthy movie snacks</string>
 </resources>

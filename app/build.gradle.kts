@@ -79,4 +79,10 @@ dependencies {
     //circleview
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
+    // retrofit2
+    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
+    // retrofit2 convert Gson
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
 }

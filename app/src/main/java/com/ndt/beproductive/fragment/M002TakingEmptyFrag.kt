@@ -51,6 +51,10 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
             mCallBack.showFrag(M003MainFocusFrag.TAG, null, true)
         }
 
+        binding.includeMenu.ivExplore.setOnClickListener {
+            mCallBack.showFrag(M004ExploreFrag.TAG, null, true)
+        }
+
         // time focus.
 //        binding.includeMenu.ivSetting.setOnClickListener {
 //            mCallBack.showFrag(M003MainFocusFrag.TAG, null, true)
