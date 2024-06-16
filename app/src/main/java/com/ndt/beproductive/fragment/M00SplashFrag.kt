@@ -19,16 +19,17 @@ class M00SplashFrag : BaseFrag<M00SplashFragBinding, CommonVM>() {
         Handler(Looper.getMainLooper()).postDelayed({
             goToMain()
         }, 2000)
+
     }
 
     private fun goToMain() {
         if (!App.instance.getStorage().isFirstTime) {
-            mCallBack.showFrag(M001OnBoarding1Frag.TAG, null, false)
+            mCallBack.showFrag(M006SignUpFrag.TAG, null, false)
             App.instance.getStorage().setIsFirstTime(true)
         } else if (App.instance.getStorage().isFirstTime) {
-            mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, false)
+            mCallBack.showFrag(M006LoginFrag.TAG, null, false)
+            App.instance.getStorage().setIsFirstTime(true)
         }
-
     }
 
     override fun initViewBinding(

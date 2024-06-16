@@ -1,6 +1,7 @@
 package com.ndt.beproductive
 
-import android.graphics.Bitmap
+import com.ndt.beproductive.api.reponse.PopularNews
+import com.ndt.beproductive.api.reponse.TopHeadlines
 
 class Storage {
     companion object {
@@ -23,4 +24,11 @@ class Storage {
     fun setIsFirstTime(isFirstTime: Boolean) {
         this.isFirstTime = isFirstTime
     }
+
+    var articleList: List<PopularNews.Articles?>? = null
+
+    var topHeadline: TopHeadlines? = null
+
+    var totalTimeFocus = 0
+    var totalTimeBreak = 0
 }

@@ -37,6 +37,12 @@ class M002CreateNoteFrag : BaseFrag<M002NoteTakingCreateANoteFragBinding, M002Cr
             })
             pickerColor.show()
         }
+
+        binding.ivBackCreateNote.setOnClickListener {
+            mCallBack.backPrevious()
+        }
+
+        binding.tvDateCreateNote.text = viewModel.getDateTime()
     }
 
     private fun changeBackGround(key: String?, data: Any?) {

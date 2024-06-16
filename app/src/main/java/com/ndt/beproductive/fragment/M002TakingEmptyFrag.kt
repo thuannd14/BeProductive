@@ -3,15 +3,15 @@ package com.ndt.beproductive.fragment
 import android.graphics.PorterDuff
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ndt.beproductive.App
 import com.ndt.beproductive.R
 import com.ndt.beproductive.RecyclerViewTouchHelper
+import com.ndt.beproductive.act.MainActivity
 import com.ndt.beproductive.adapter.NoteAdapter
 import com.ndt.beproductive.databinding.M002NoteTakingEmptyFragBinding
 import com.ndt.beproductive.model.Note
@@ -20,45 +20,20 @@ import com.ndt.beproductive.viewmodel.M002TakingEmptyVM
 class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingEmptyVM>() {
     companion object {
         val TAG: String = M002TakingEmptyFrag::class.java.name
-        const val ALL_NOTES = 1
-        const val FOCUS_TIME = 2
-        const val EXPLORE = 3
-        const val SETTING = 4
     }
 
     private lateinit var adapter: NoteAdapter
     private lateinit var noteList: MutableList<Note> // Luu cac note lay tu viewmodel.
 
-    // xu li adapter.
-    override fun initViews() {
-        val color = ContextCompat.getColor(mContext, R.color.light_blue)
-        binding.includeMenu.ivNotes.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-        // xu lí khi click vào 1 chức năng thanh menu thì đổi màu.
-        changeMenu(color)
 
-        // add notes.
+    override fun initViews() {
+
+        // add note.
         binding.ivAddNotes.setOnClickListener {
-            Log.i(TAG, "Add notes")
             mCallBack.showFrag(M002CreateNoteFrag.TAG, null, true)
         }
 
-         //settting
-        binding.includeMenu.ivSetting.setOnClickListener {
-            mCallBack.showFrag(M005SettingFrag.TAG, null, true)
-        }
-
-        binding.includeMenu.ivPomodoro.setOnClickListener {
-            mCallBack.showFrag(M003MainFocusFrag.TAG, null, true)
-        }
-
-        binding.includeMenu.ivExplore.setOnClickListener {
-            mCallBack.showFrag(M004ExploreFrag.TAG, null, true)
-        }
-
-        // time focus.
-//        binding.includeMenu.ivSetting.setOnClickListener {
-//            mCallBack.showFrag(M003MainFocusFrag.TAG, null, true)
-//        }
+        changMenu()
         // Lay ds note tu vm.
         noteList = viewModel.getNoteList()
         Log.i(TAG, "NOTE LIST: $noteList")
@@ -66,50 +41,53 @@ class M002TakingEmptyFrag : BaseFrag<M002NoteTakingEmptyFragBinding, M002TakingE
         setAdapterOnRv()
     }
 
+    private fun changMenu() {
+        binding.includeMenu.ivNotes.setOnClickListener(this)
+        binding.includeMenu.ivPomodoro.setOnClickListener(this)
+        binding.includeMenu.ivExplore.setOnClickListener(this)
+        binding.includeMenu.ivSetting.setOnClickListener(this)
+        binding.includeMenu.ivData.setOnClickListener(this)
 
-    private fun changeMenu(color: Int) {
-        if (R.id.iv_notes == ALL_NOTES) {
-            binding.includeMenu.ivNotes.setOnClickListener {
-                it.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        mContext, androidx.appcompat.R.anim.abc_fade_in
-                    )
-                )
-                binding.includeMenu.ivNotes.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                mCallBack.showFrag(TAG, null, true)
-            }
-        } else if (R.id.iv_explore == FOCUS_TIME) {
-            binding.includeMenu.ivExplore.setOnClickListener {
-                it.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        mContext, androidx.appcompat.R.anim.abc_fade_in
-                    )
-                )
-                binding.includeMenu.ivExplore.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                mCallBack.showFrag(M003MainFocusFrag.TAG, null, true)
-            }
-        } else if (R.id.iv_pomodoro == EXPLORE) {
-            binding.includeMenu.ivPomodoro.setOnClickListener {
-                it.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        mContext, androidx.appcompat.R.anim.abc_fade_in
-                    )
-                )
-                binding.includeMenu.ivPomodoro.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                //mCallBack.showFrag(, null, true)
-            }
-        } else if (R.id.iv_setting == SETTING) {
-            binding.includeMenu.ivSetting.setOnClickListener {
-                it.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        mContext, androidx.appcompat.R.anim.abc_fade_in
-                    )
-                )
-                binding.includeMenu.ivSetting.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                mCallBack.showFrag(M005SettingFrag.TAG, null, true)
-            }
+        changeColor(MainActivity.ALL_NOTES, colorBlue, colorBlack)
+    }
+
+    override fun clickViews(v: View?) {
+        if (v?.id == R.id.iv_notes) {
+            changeColor(MainActivity.ALL_NOTES, colorBlue, colorBlack)
+            mCallBack.showFrag(TAG, null, true)
+        } else if (v?.id == R.id.iv_pomodoro) {
+            changeColor(MainActivity.FOCUS_TIME, colorBlue, colorBlack)
+            mCallBack.showFrag(M003MainFocusFrag.TAG, null, true)
+        } else if (v?.id == R.id.iv_explore) {
+            changeColor(MainActivity.EXPLORE, colorBlue, colorBlack)
+            mCallBack.showFrag(M004ExploreFrag.TAG, null, true)
+        } else if (v?.id == R.id.iv_setting) {
+            changeColor(MainActivity.SETTING, colorBlue, colorBlack)
+            mCallBack.showFrag(M005SettingFrag.TAG, null, true)
+        } else if (v?.id == R.id.iv_data) {
+            changeColor(MainActivity.DATA, colorBlue, colorBlack)
+            mCallBack.showFrag(M007AnalyticsFrag.TAG, null, true)
         }
     }
+
+    private fun changeColor(key: Int, colorBlue: Int, colorBlack: Int) {
+        val alphaNote = if (key == MainActivity.ALL_NOTES) colorBlue else colorBlack
+        binding.includeMenu.ivNotes.setColorFilter(alphaNote, PorterDuff.Mode.SRC_IN)
+
+        val alphaLFocus = if (key == MainActivity.FOCUS_TIME) colorBlue else colorBlack
+        binding.includeMenu.ivPomodoro.setColorFilter(alphaLFocus, PorterDuff.Mode.SRC_IN)
+
+        val alphaExplore = if (key == MainActivity.EXPLORE) colorBlue else colorBlack
+        binding.includeMenu.ivExplore.setColorFilter(alphaExplore, PorterDuff.Mode.SRC_IN)
+
+        val alphaSetting = if (key == MainActivity.SETTING) colorBlue else colorBlack
+        binding.includeMenu.ivSetting.setColorFilter(alphaSetting, PorterDuff.Mode.SRC_IN)
+
+        val alphaData = if (key == MainActivity.DATA) colorBlue else colorBlack
+        binding.includeMenu.ivData.setColorFilter(alphaData, PorterDuff.Mode.SRC_IN)
+
+    }
+
 
     private fun setAdapterOnRv() {
         adapter = NoteAdapter(mContext, noteList, App.instance.getDB())

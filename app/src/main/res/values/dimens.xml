@@ -2,4 +2,15 @@
 <resources>
     <dimen name="dimen_margin_start">10dp</dimen>
     <dimen name="dimen_margin_top">20dp</dimen>
+    <dimen name="viewpager_next_item_visible">26dp</dimen>
+    <dimen name="viewpager_current_item_horizontal_margin">42dp</dimen>
+    <dimen name="viewpager_current_item_horizontal_margin_2">26dp</dimen>
+    <dimen name="_15sdp">15dp</dimen>
+    <dimen name="_26sdp">26dp</dimen>
+    <dimen name="_35sdp">35dp</dimen>
+    <dimen name="_250sdp">250dp</dimen>
+    <dimen name="_20sdp">20dp</dimen>
+    <dimen name="_124sdp">124dp</dimen>
+    <dimen name="_260sdp">260dp</dimen>
+    <dimen name="_52sdp">52dp</dimen>
 </resources>

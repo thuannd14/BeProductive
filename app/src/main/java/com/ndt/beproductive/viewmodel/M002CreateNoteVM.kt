@@ -19,6 +19,14 @@ class M002CreateNoteVM : BaseViewModel() {
         private val sdf = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
     }
 
+    fun getDateTime(): String {
+        val instant = Instant.now()
+        val zoneId = ZoneId.systemDefault()
+        val zonedDateTime = ZonedDateTime.ofInstant(instant, zoneId)
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        return zonedDateTime.format(formatter)
+    }
+
 
     fun saveNoteColor(content: String, colorValue: Int) {
 

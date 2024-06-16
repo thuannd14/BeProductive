@@ -1,6 +1,5 @@
 package com.ndt.beproductive.fragment
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
@@ -15,11 +14,12 @@ class M004DetailPopularFrag : BaseFrag<ItemSpecificTopicPopularBinding, M004Deta
 
     override fun initViews() {
         val article = mdata as PopularNews.Articles
-        binding.tvAuthor.text = article.author
-        binding.tvTitle.text = article.title
-        binding.tvPublishedAt.text = article.publishedAt
-        binding.tvDescArticle.text = article.descArticle
-        Glide.with(mContext).load(article.imgPath).into(binding.ivArticle)
+        binding.tvTitlePopular.text = article.title
+        binding.tvDescPopular.text = article.descArticle
+        Glide.with(mContext).load(article.imgPath).into(binding.ivPopular)
+        binding.ivBackPopular.setOnClickListener {
+            mCallBack.backPrevious()
+        }
     }
 
     override fun initViewBinding(

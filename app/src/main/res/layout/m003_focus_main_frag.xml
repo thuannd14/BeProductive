@@ -43,6 +43,7 @@
         android:id="@+id/ic_pikachu"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:visibility="gone"
         android:src="@mipmap/ic_pikachu"
         app:layout_constraintBottom_toTopOf="@id/ln_focus_time"
         app:layout_constraintEnd_toEndOf="@id/cl_main"

@@ -33,7 +33,7 @@
     <LinearLayout
         android:id="@+id/ln_create_note"
         android:layout_width="match_parent"
-        android:layout_height="580dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:padding="5dp"
@@ -65,16 +65,15 @@
             android:id="@+id/fr_create_note"
             android:layout_width="match_parent"
             android:background="@drawable/bg_item_note"
-            android:layout_height="fill_parent"
+            android:layout_height="300dp"
             android:layout_marginTop="5dp">
 
             <EditText
                 android:id="@+id/ed_content_note_edit"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:background="@color/light_green_pick"
                 android:gravity="top"
-                android:textColor="@color/black"
                 android:hint="@string/txt_note_something"
                 android:inputType="textMultiLine"
                 android:maxLines="20"
@@ -84,6 +83,7 @@
                 android:scrollbars="vertical"
                 android:scrollHorizontally="false"
                 android:singleLine="true"
+                android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
@@ -102,7 +102,7 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ln_create_note" />

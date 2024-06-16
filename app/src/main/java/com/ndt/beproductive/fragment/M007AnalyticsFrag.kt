@@ -1,50 +1,54 @@
 package com.ndt.beproductive.fragment
 
-import android.graphics.Bitmap
 import android.graphics.PorterDuff
-import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ndt.beproductive.CommonUtils
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
+import com.ndt.beproductive.App
 import com.ndt.beproductive.R
 import com.ndt.beproductive.act.MainActivity
-import com.ndt.beproductive.databinding.M005ProfileFragBinding
-import com.ndt.beproductive.viewmodel.M005SettingVM
+import com.ndt.beproductive.databinding.M007AnalysticTimeBinding
+import com.ndt.beproductive.viewmodel.M007AnalyticsVM
 
-
-class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
+class M007AnalyticsFrag : BaseFrag<M007AnalysticTimeBinding, M007AnalyticsVM>() {
     companion object {
-        val TAG: String = M005SettingFrag::class.java.name
-        const val IMG_PATH = "IMG_PATH"
+        val TAG: String = M007AnalyticsFrag::class.java.name
     }
 
-    private var userName = CommonUtils.getPref(USER_NAME)
-    private var email = CommonUtils.getPref(EMAIL)
+    private var timeFocus = App.instance.getStorage().totalTimeFocus
+    private var timeBreak = App.instance.getStorage().totalTimeBreak
+    private lateinit var timeList: MutableList<PieEntry>
 
     override fun initViews() {
-
-        binding.ciUsername.setOnClickListener {
-            val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(
-                requireActivity().contentResolver, viewModel.getUri()
-            )
-            binding.ciUsername.setImageBitmap(bitmap)
+        Log.d(TAG, "Total Time Focus: $timeFocus")
+        binding.ivBackData.setOnClickListener {
+            mCallBack.backPrevious()
         }
         changMenu()
-        setInfo()
-
-        // log out.
-        binding.ivLogOut.setOnClickListener {
-            mCallBack.showFrag(M006LoginFrag.TAG, null, false)
-        }
+        setDataChart()
     }
 
+    private fun setDataChart() {
 
-    private fun setInfo() {
-        binding.tvEmail.text = email
-        binding.tvUsername.text = userName
-        binding.tvUserNameAcc.text = userName
+        timeList = mutableListOf()
+        timeList.add(PieEntry(timeFocus.toFloat(), "Focus"))
+        timeList.add(PieEntry(timeBreak.toFloat(), "Break"))
+
+
+        val dataSet = PieDataSet(timeList, "")
+        dataSet.setColors(*ColorTemplate.JOYFUL_COLORS)
+
+
+        val data = PieData(dataSet)
+        binding.chartDataTime.data = data
+        binding.chartDataTime.animateXY(2000, 2000)
     }
+
 
     private fun changMenu() {
         binding.includeMenu.ivNotes.setOnClickListener(this)
@@ -53,7 +57,7 @@ class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
         binding.includeMenu.ivSetting.setOnClickListener(this)
         binding.includeMenu.ivData.setOnClickListener(this)
 
-        changeColor(MainActivity.SETTING, colorBlue, colorBlack)
+        changeColor(MainActivity.DATA, colorBlue, colorBlack)
     }
 
     override fun clickViews(v: View?) {
@@ -71,7 +75,7 @@ class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
             mCallBack.showFrag(M005SettingFrag.TAG, null, true)
         } else if (v?.id == R.id.iv_data) {
             changeColor(MainActivity.DATA, colorBlue, colorBlack)
-            mCallBack.showFrag(M007AnalyticsFrag.TAG, null, true)
+            mCallBack.showFrag(TAG, null, true)
         }
     }
 
@@ -95,11 +99,11 @@ class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
 
     override fun initViewBinding(
         inflater: LayoutInflater, container: ViewGroup?
-    ): M005ProfileFragBinding {
-        return M005ProfileFragBinding.inflate(inflater, container, false)
+    ): M007AnalysticTimeBinding {
+        return M007AnalysticTimeBinding.inflate(inflater, container, false)
     }
 
-    override fun getClassVM(): Class<M005SettingVM> {
-        return M005SettingVM::class.java
+    override fun getClassVM(): Class<M007AnalyticsVM> {
+        return M007AnalyticsVM::class.java
     }
 }

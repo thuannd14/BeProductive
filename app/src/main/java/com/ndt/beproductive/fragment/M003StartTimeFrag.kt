@@ -14,7 +14,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class M003StartTimeFrag : BaseFrag<M003StartTimeFragBinding, M003StartTimeVM>(), CoroutineScope {
@@ -37,7 +36,7 @@ class M003StartTimeFrag : BaseFrag<M003StartTimeFragBinding, M003StartTimeVM>(),
         // xu li dem nguoc.
 
 
-       startTime()
+        startTime()
 
         //Hien thi text.
         showContent()
@@ -74,7 +73,7 @@ class M003StartTimeFrag : BaseFrag<M003StartTimeFragBinding, M003StartTimeVM>(),
 
     @SuppressLint("SetTextI18n")
     private fun startTime() {
-        viewModel.startCountDownFocus{
+        viewModel.startCountDownFocus {
             launch(Dispatchers.Main) {
                 mCallBack.showFrag(M003BreakTimeFrag.TAG, null, false)
             }

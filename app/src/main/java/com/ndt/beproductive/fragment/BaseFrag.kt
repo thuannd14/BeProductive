@@ -1,6 +1,7 @@
 package com.ndt.beproductive.fragment
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,23 +9,35 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.ndt.beproductive.OnCallbackAPI
 import com.ndt.beproductive.OnMainCallBack
+import com.ndt.beproductive.R
+import com.ndt.beproductive.act.MainActivity
 import com.ndt.beproductive.viewmodel.BaseViewModel
 
 
-abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.OnClickListener, OnCallbackAPI {
+abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.OnClickListener,
+    OnCallbackAPI {
 
     companion object {
         val TAG: String = BaseFrag::class.java.name
-        val ALL_NOTES = 1
-        val FOCUS_TIME = 2
-        val EXPLORE = 3
-        val SETTING = 4
+        const val ALL_NOTES = 1
+        const val FOCUS_TIME = 2
+        const val EXPLORE = 3
+        const val SETTING = 4
+
+        const val IMG_PATH = "IMG_PATH"
+        const val USER_NAME = "USER_NAME"
+        const val EMAIL = "EMAIL"
+        const val PASSWORD = "PASS_WORD"
     }
+
+    protected var colorBlue = 0
+    protected var colorBlack = 0
 
 
     protected lateinit var binding: T
@@ -49,6 +62,8 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+        colorBlue = ContextCompat.getColor(mContext, R.color.light_blue)
+        colorBlack = ContextCompat.getColor(mContext, R.color.black)
         binding = initViewBinding(inflater, container)
         viewModel = ViewModelProvider(this)[getClassVM()]
         viewModel.setActionCallBack(this)
@@ -60,6 +75,7 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
         super.onViewCreated(view, savedInstanceState)
         initViews()
     }
+
 
     protected abstract fun initViews()
 
@@ -77,7 +93,6 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
     }
 
     protected open fun clickViews(v: View?) {
-
     }
 
 
@@ -95,58 +110,11 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
 
     override fun apiError(key: String, code: Int, data: Any) {
         if (code == 401) {
-            // Loi call api loi thi call ve m003.
-            //mCallBack.showFrag(M004)
+            mCallBack.showFrag(M004ExploreFrag.TAG, null, false)
             Toast.makeText(context, "Phien da het han!", Toast.LENGTH_LONG).show()
         } else {
             Toast.makeText(context, "Error: " + code + "DaTA " + data, Toast.LENGTH_LONG).show()
         }
     }
 
-    /*
-    protected open fun changeMenu(color: Int) {
-        if (R.id.iv_notes == M002TakingEmptyFrag.ALL_NOTES) {
-            binding.includeMenu.ivNotes.setOnClickListener {
-                it.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        mContext, androidx.appcompat.R.anim.abc_fade_in
-                    )
-                )
-                binding.includeMenu.ivNotes.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, true)
-            }
-        } else if (R.id.iv_explore == M002TakingEmptyFrag.EXPLORE) {
-            binding.includeMenu.ivExplore.setOnClickListener {
-                it.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        mContext, androidx.appcompat.R.anim.abc_fade_in
-                    )
-                )
-                binding.includeMenu.ivExplore.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, true)
-            }
-        } else if (R.id.iv_pomodoro == M002TakingEmptyFrag.EXPLORE) {
-            binding.includeMenu.ivPomodoro.setOnClickListener {
-                it.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        mContext, androidx.appcompat.R.anim.abc_fade_in
-                    )
-                )
-                binding.includeMenu.ivPomodoro.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, true)
-            }
-        } else if (R.id.iv_setting == M002TakingEmptyFrag.EXPLORE) {
-            binding.includeMenu.ivSetting.setOnClickListener {
-                it.startAnimation(
-                    AnimationUtils.loadAnimation(
-                        mContext, androidx.appcompat.R.anim.abc_fade_in
-                    )
-                )
-                binding.includeMenu.ivSetting.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, true)
-            }
-        }
-    }
-
-     */
 }

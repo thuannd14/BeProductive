@@ -11,12 +11,10 @@ class M005SettingVM : BaseViewModel() {
         val TAG: String = M005SettingVM::class.java.name
     }
 
-    fun saveUri(uri: Uri) {
-        CommonUtils.savePref(M005SettingFrag.URI_PATH, uri.toString())
-    }
+    private var myUri: Uri? = null
 
     fun getUri(): Uri {
-        val pathStr = CommonUtils.getPref(M005SettingFrag.URI_PATH)
-        return Uri.parse(pathStr)
+        myUri = Uri.parse(CommonUtils.getPref(M005SettingFrag.IMG_PATH))
+        return myUri!!
     }
 }

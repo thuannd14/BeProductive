@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import com.ndt.beproductive.App
+import com.ndt.beproductive.fragment.M003StartTimeFrag
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -13,6 +15,15 @@ import kotlin.coroutines.CoroutineContext
 class M003StartTimeVM : BaseViewModel(), CoroutineScope {
     companion object {
         val TAG: String = M003StartTimeVM::class.java.name
+    }
+
+    private var minute: Int = 0
+    private var second: Int = 0
+
+    init {
+        minute = 2
+        second = 60
+        App.instance.getStorage().totalTimeFocus += minute
     }
 
 
@@ -34,8 +45,6 @@ class M003StartTimeVM : BaseViewModel(), CoroutineScope {
         return secondFocus
     }
 
-    private var minute: Int = 2
-    private var second: Int = 60
 
     fun startCountDownFocus(action: () -> Unit) {
         Log.i(TAG, "startCountDownFocus")
@@ -49,6 +58,10 @@ class M003StartTimeVM : BaseViewModel(), CoroutineScope {
                         Log.i(TAG, "post time: $i:$j")
                     }
                     minuteFocus.postValue(i)
+                    Log.i(
+                        M003StartTimeFrag.TAG,
+                        "save minute: ${App.instance.getStorage().totalTimeFocus}"
+                    )
                 }
             }
             action()

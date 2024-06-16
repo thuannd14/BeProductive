@@ -8,7 +8,7 @@
     android:background="@color/light_blue">
 
     <ImageView
-        android:id="@+id/iv_back_popular"
+        android:id="@+id/iv_back_top_headline"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/dimen_margin_start"
@@ -19,17 +19,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_back_popular"
+        android:id="@+id/tv_top_headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_margin_top"
         android:layout_marginStart="50dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="Popular"
+        android:text="New articles"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/iv_back_popular"
+        app:layout_constraintStart_toStartOf="@id/iv_back_top_headline"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
@@ -42,10 +42,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_back_popular">
+        app:layout_constraintTop_toBottomOf="@id/iv_back_top_headline">
 
         <TextView
-            android:id="@+id/tv_title_popular"
+            android:id="@+id/tv_title_top_headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_font"
@@ -56,7 +56,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/iv_popular"
+            android:id="@+id/iv_top_headline"
             android:src="@mipmap/img_article"
             android:scaleType="centerCrop"
             android:layout_marginTop="3dp"
@@ -70,7 +70,7 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/tv_desc_popular"
+                android:id="@+id/tv_desc_top_headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_font"

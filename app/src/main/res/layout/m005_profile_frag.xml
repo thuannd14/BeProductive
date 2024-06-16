@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
+    android:background="@mipmap/bg_sign_up"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/white"
-        android:padding="10dp"
+        android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -34,31 +33,20 @@
             android:fontFamily="@font/inter_font"
             android:gravity="center|start"
             android:text="Nguyen Duc Thuan"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardview"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="15dp"
-        app:cardBackgroundColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ln_avtar" />
 
     <LinearLayout
         android:id="@+id/ln_infor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardview">
+        app:layout_constraintTop_toBottomOf="@id/ln_avtar">
 
         <TableRow
             android:layout_width="match_parent"
@@ -177,8 +165,8 @@
         android:id="@+id/ln_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@color/white"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ln_infor">
@@ -219,15 +207,15 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tv_select_language"
+                android:id="@+id/tv_user_name_acc"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_font"
-                android:gravity="end"
-                android:text="English"
+                android:gravity="center"
+                android:text="Thuan Nguyen Duc"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
         </TableRow>
 
         <TableRow
@@ -252,39 +240,39 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_font"
-                android:gravity="end"
+                android:gravity="center"
                 android:text="thuan140603@gmail.com"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </TableRow>
 
-        <!--        <TableRow-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:padding="10dp"-->
-        <!--            android:weightSum="2">-->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:weightSum="2">
 
-        <!--            <TextView-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:layout_weight="1"-->
-        <!--                android:fontFamily="@font/inter_font"-->
-        <!--                android:gravity="start"-->
-        <!--                android:text="Log out"-->
-        <!--                android:textColor="@color/black"-->
-        <!--                android:textSize="18sp" />-->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/inter_font"
+                android:gravity="start"
+                android:text="Log out"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-        <!--            <ImageView-->
-        <!--                android:id="@+id/iv_log_out"-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="30dp"-->
-        <!--                android:layout_weight="1"-->
-        <!--                android:fontFamily="@font/inter_font"-->
-        <!--                android:gravity="end"-->
-        <!--                android:src="@mipmap/ic_logout"-->
-        <!--                android:textColor="@color/black"-->
-        <!--                android:textSize="18sp" />-->
-        <!--        </TableRow>-->
+            <ImageView
+                android:id="@+id/iv_log_out"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/inter_font"
+                android:gravity="end"
+                android:src="@mipmap/ic_logout"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </TableRow>
     </LinearLayout>
 
 

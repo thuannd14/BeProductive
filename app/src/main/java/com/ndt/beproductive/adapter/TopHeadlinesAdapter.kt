@@ -19,34 +19,34 @@ import com.bumptech.glide.request.RequestOptions
 import com.ndt.beproductive.App
 import com.ndt.beproductive.R
 import com.ndt.beproductive.api.reponse.PopularNews
+import com.ndt.beproductive.api.reponse.TopHeadlines
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
-class PopularAdapter(
+class TopHeadlinesAdapter(
     private var context: Context,
-    private var articlesList: List<PopularNews.Articles?> = mutableListOf()
-) : RecyclerView.Adapter<PopularAdapter.PopularHolder>() {
+    private var articlesList: List<TopHeadlines.Articles?> = mutableListOf()
+) : RecyclerView.Adapter<TopHeadlinesAdapter.TopHeadlineHolder>() {
     companion object {
-        val TAG: String = PopularAdapter::class.java.name
+        val TAG: String = TopHeadlinesAdapter::class.java.name
     }
 
-    private val liveData = MutableLiveData<PopularNews.Articles>()
+    private val liveData = MutableLiveData<TopHeadlines.Articles>()
 
-    fun getArticle(): MutableLiveData<PopularNews.Articles> {
+    fun getTopHeadline(): MutableLiveData<TopHeadlines.Articles> {
         return liveData
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_popular, parent, false)
-        return PopularHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopHeadlineHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_top_headlines, parent, false)
+        return TopHeadlineHolder(view)
     }
 
     override fun getItemCount(): Int {
         return articlesList.size
     }
 
-    override fun onBindViewHolder(holder: PopularHolder, position: Int) {
-        articlesList = App.instance.getStorage().articleList!!
-        val article: PopularNews.Articles = articlesList[position]!!
+    override fun onBindViewHolder(holder: TopHeadlineHolder, position: Int) {
+        val article: TopHeadlines.Articles = articlesList[position]!!
 
         val multi = MultiTransformation<Bitmap>(
             RoundedCornersTransformation(128, 0, RoundedCornersTransformation.CornerType.ALL)
@@ -63,7 +63,7 @@ class PopularAdapter(
         holder.tvTitlePopular.tag = article
     }
 
-    inner class PopularHolder(view: View) : ViewHolder(view) {
+    inner class TopHeadlineHolder(view: View) : ViewHolder(view) {
         val tvTitlePopular: TextView = view.findViewById<TextView?>(R.id.tv_title_popular)
         val ivPopular: ImageView = view.findViewById<ImageView>(R.id.iv_popular)
 
@@ -74,19 +74,18 @@ class PopularAdapter(
                         context, androidx.appcompat.R.anim.abc_fade_in
                     )
                 )
-                goToDetail(tvTitlePopular.tag as PopularNews.Articles)
+                goToDetail(tvTitlePopular.tag as TopHeadlines.Articles)
             }
         }
-
     }
 
-    private fun goToDetail(tag: PopularNews.Articles) {
+    private fun goToDetail(tag: TopHeadlines.Articles) {
         Log.i(TAG, "Content article: $tag")
         liveData.postValue(tag)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateArticleList(result: List<PopularNews.Articles?>) {
+    fun updateArticleList(result: List<TopHeadlines.Articles?>) {
         articlesList = result.filterNotNull().toMutableList()
         Log.i(TAG, "getItemCount: ${articlesList.size}")
         notifyDataSetChanged()

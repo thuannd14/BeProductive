@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import com.ndt.beproductive.App
 import com.ndt.beproductive.fragment.M003BreakTimeFrag
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +15,16 @@ import kotlin.coroutines.CoroutineContext
 class M003BreakTimeVM : BaseViewModel(), CoroutineScope {
     companion object {
         val TAG: String = M003BreakTimeVM::class.java.name
+    }
+
+
+    private var minutesBreak: Int = 0
+    private var secondsBreak: Int = 0
+
+    init {
+        minutesBreak = 4
+        secondsBreak = 60
+        App.instance.getStorage().totalTimeBreak += minutesBreak
     }
 
     // MediatorLiveData để quản lí 2 Livedata.
@@ -34,10 +45,6 @@ class M003BreakTimeVM : BaseViewModel(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO + job
-
-    private var minutesBreak: Int = 4
-    private var secondsBreak: Int = 60
-
 
     fun startCountDownBreak(action: () -> Unit) {
         Log.i(TAG, "startCountDownBreak")
