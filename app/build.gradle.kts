@@ -68,26 +68,33 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
 
     // https://github.com/xabaras/RecyclerViewSwipeDecorator
-    implementation ("it.xabaras.android:recyclerview-swipedecorator:1.4")
+    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
 
     // coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     //glide
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     //circleview
-    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
     // retrofit2
-    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.google.code.gson:gson:2.10.1")
     // retrofit2 convert Gson
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    implementation ("jp.wasabeef:glide-transformations:4.3.0")
+    implementation("jp.wasabeef:glide-transformations:4.3.0")
 
     // mpchart
-    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // video sdk
+    //VideoSDK
+    implementation("live.videosdk:rtc-android-sdk:0.1.25")
+
+    // library to perform Network call to generate a meeting id
+    implementation("com.amitshekhar.android:android-networking:1.0.2")
 
 }

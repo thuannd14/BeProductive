@@ -38,7 +38,7 @@ class M004ExploreFrag : BaseFrag<M004ExploreFragBinding, M004ExploreVM>() {
         binding.includeMenu.ivPomodoro.setOnClickListener(this)
         binding.includeMenu.ivExplore.setOnClickListener(this)
         binding.includeMenu.ivSetting.setOnClickListener(this)
-        binding.includeMenu.ivData.setOnClickListener(this)
+        binding.includeMenu.ivRoom.setOnClickListener(this)
 
         changeColor(MainActivity.EXPLORE, colorBlue, colorBlack)
     }
@@ -56,9 +56,9 @@ class M004ExploreFrag : BaseFrag<M004ExploreFragBinding, M004ExploreVM>() {
         } else if (v?.id == R.id.iv_setting) {
             changeColor(MainActivity.SETTING, colorBlue, colorBlack)
             mCallBack.showFrag(M005SettingFrag.TAG, null, true)
-        } else if (v?.id == R.id.iv_data) {
+        } else if (v?.id == R.id.iv_room) {
             changeColor(MainActivity.DATA, colorBlue, colorBlack)
-            mCallBack.showFrag(M007AnalyticsFrag.TAG, null, true)
+            mCallBack.showFrag(M008JoinFrag.TAG, null, true)
         }
     }
 
@@ -76,7 +76,7 @@ class M004ExploreFrag : BaseFrag<M004ExploreFragBinding, M004ExploreVM>() {
         binding.includeMenu.ivSetting.setColorFilter(alphaSetting, PorterDuff.Mode.SRC_IN)
 
         val alphaData = if (key == MainActivity.DATA) colorBlue else colorBlack
-        binding.includeMenu.ivData.setColorFilter(alphaData, PorterDuff.Mode.SRC_IN)
+        binding.includeMenu.ivRoom.setColorFilter(alphaData, PorterDuff.Mode.SRC_IN)
 
     }
 

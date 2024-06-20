@@ -6,7 +6,6 @@ import com.ndt.beproductive.App
 import com.ndt.beproductive.OnCallbackAPI
 import com.ndt.beproductive.R
 import com.ndt.beproductive.api.API
-import com.ndt.beproductive.fragment.BaseFrag
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -20,6 +19,9 @@ abstract class BaseViewModel : ViewModel() {
     companion object {
         const val BASE_URL = "https://newsapi.org/v2/"
         val TAG: String = BaseViewModel::class.java.name
+        const val URL_BASE_MEETING = "https://api.videosdk.live/v2/rooms"
+        const val sampleToken =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJhYTQzODIwMi0wNGM0LTRhYmMtYWU4ZC0yODc1OTM0ZDkwODgiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcxODY0Mjc0MCwiZXhwIjoxNzM0MTk0NzQwfQ.Pjuv0Ro6JGF9EVSx9gsG6AdIdg1gbZlpVpPnMGy-9h0"
     }
 
     val ARR_IMG = arrayOf(
@@ -46,12 +48,12 @@ abstract class BaseViewModel : ViewModel() {
 
 
     protected open fun getAPI(): API {
-        val retrofit: Retrofit = Retrofit.Builder().baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(
-                // cau hinh OkHttpClient quan li cac request va response.
-                OkHttpClient.Builder().callTimeout(30, TimeUnit.SECONDS).build()
-            ).build()
+        val retrofit: Retrofit =
+            Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+                .client(
+                    // cau hinh OkHttpClient quan li cac request va response.
+                    OkHttpClient.Builder().callTimeout(30, TimeUnit.SECONDS).build()
+                ).build()
         // anh xa api.
         return retrofit.create(API::class.java)
     }
@@ -62,8 +64,7 @@ abstract class BaseViewModel : ViewModel() {
                 if (response.code() == 200 || response.code() == 201) {
                     handleSuccess(key, response.body())
                     Log.i(
-                        TAG,
-                        "Thanh cong!-----" + response.code() + response.body()
+                        TAG, "Thanh cong!-----" + response.code() + response.body()
                     )
                 } else {
                     handleFail(key!!, response.code(), response.errorBody())

@@ -64,11 +64,7 @@ class MainActivity : BaseAct<ActivityMainBinding, CommonVM>() {
     override fun initViews() {
         Log.i(TAG, "Main act")
         showFrag(M00SplashFrag.TAG, null, false)
-
         getImg()
-
-
-
 //        binding.includeMenu.ivNotes.setOnClickListener(this)
 //        binding.includeMenu.ivPomodoro.setOnClickListener(this)
 //        binding.includeMenu.ivExplore.setOnClickListener(this)

@@ -21,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/ln_add"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
@@ -28,7 +29,7 @@
         android:background="@drawable/bg_button"
         android:gravity="center"
         android:padding="5dp"
-        app:layout_constraintEnd_toStartOf="@id/ln_search"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -39,36 +40,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ln_search"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/bg_search"
-        android:gravity="center"
-        android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/iv_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_search" />
-    </LinearLayout>
-
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/iv_center"-->
-    <!--        android:layout_width="172dp"-->
-    <!--        android:layout_height="172dp"-->
-    <!--        android:src="@mipmap/img_nt_empty"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_all_notes"
         android:layout_width="match_parent"
@@ -78,7 +49,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ln_search"
+        app:layout_constraintTop_toBottomOf="@id/ln_add"
         tools:listitem="@layout/item_note" />
 
     <include
