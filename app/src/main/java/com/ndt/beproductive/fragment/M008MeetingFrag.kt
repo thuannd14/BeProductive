@@ -59,6 +59,7 @@ class M008MeetingFrag : BaseFrag<M008MeetingFragBinding, M008MeetingVM>() {
         token = viewModel.getToken()
         meetingID = mdata as String
         userName = CommonUtils.getPref(USER_NAME).toString()
+        binding.tvMeetingRoom.text = String.format("Meeting room:%s", meetingID)
 
         Log.i(TAG, "TOKEN: $token\nmeetingID: $meetingID")
 
@@ -78,7 +79,7 @@ class M008MeetingFrag : BaseFrag<M008MeetingFragBinding, M008MeetingVM>() {
 
     }
 
-    private fun setUpMeeting(){
+    private fun setUpMeeting() {
         VideoSDK.config(token)
         meetingRoom = VideoSDK.initMeeting(
             mContext, meetingID, userName, micEnabled, webcamEnabled, null, null, false, null, null

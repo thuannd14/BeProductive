@@ -29,7 +29,7 @@
         android:gravity="center"
         android:padding="3dp"
         android:text="@string/txt_on_boarding_3"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <Button
