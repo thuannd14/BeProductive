@@ -1,9 +1,13 @@
 package com.ndt.beproductive.fragment
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
@@ -16,7 +20,6 @@ class M008JoinFrag : BaseFrag<M008JoinFragBinding, M008JoinVM>() {
     companion object {
         val TAG: String = M008JoinFrag::class.java.name
     }
-
     override fun initViews() {
         binding.btCreateMeeting.setOnClickListener {
             AndroidNetworking.post(viewModel.getUrl())
@@ -27,6 +30,7 @@ class M008JoinFrag : BaseFrag<M008JoinFragBinding, M008JoinVM>() {
                             // response will contain `roomId`
                             val meetingId = response.getString("roomId")
                             binding.tvRoomId.text = meetingId
+                            mCallBack.showFrag(M008MeetingFrag.TAG, meetingId, false)
                             Log.i(TAG, "meetingId:$meetingId")
                         } catch (e: JSONException) {
                             e.printStackTrace()
@@ -44,8 +48,6 @@ class M008JoinFrag : BaseFrag<M008JoinFragBinding, M008JoinVM>() {
         binding.btJoin.setOnClickListener {
             goToMeeting()
         }
-
-
     }
 
     private fun goToMeeting() {

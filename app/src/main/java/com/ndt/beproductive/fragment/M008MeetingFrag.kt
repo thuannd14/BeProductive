@@ -25,80 +25,11 @@ class M008MeetingFrag : BaseFrag<M008MeetingFragBinding, M008MeetingVM>() {
     private var micEnabled = true
     private var webcamEnabled = true
 
-    private var userName = ""
-    private var token = ""
-    private var meetingID = ""
-    override fun initViews() {
-        token = viewModel.getToken()
-        meetingID = mdata as String
-        userName = CommonUtils.getPref(USER_NAME).toString()
-        Log.i(TAG, "TOKEN: $token\n meetingID$meetingID")
+    private lateinit var userName: String
+    private lateinit var token: String
+    private lateinit var meetingID: String
 
-        setupMeeting()
-        setActionListeners()
-
-        binding.rvMeeting.layoutManager = GridLayoutManager(mContext, 2)
-        binding.rvMeeting.adapter = PersonAdapter(meetingRoom!!)
-    }
-
-    private fun setActionListeners() {
-        // click mic
-        binding.ivMic.setOnClickListener { v ->
-            if (micEnabled) {
-                // this will mute the local participant's mic
-                meetingRoom?.muteMic()
-                binding.ivMic.setImageResource(R.mipmap.ic_mute)
-                Toast.makeText(mContext, "Mic Disabled", Toast.LENGTH_SHORT).show()
-            } else {
-                // this will unmute the local participant's mic
-                meetingRoom?.unmuteMic()
-                binding.ivMic.setImageResource(R.mipmap.ic_mic)
-                Toast.makeText(mContext, "Mic Enabled", Toast.LENGTH_SHORT).show()
-            }
-            micEnabled = !micEnabled
-            Log.i(TAG, "MIC: $micEnabled")
-        }
-
-        // click webcam
-        binding.ivWebcam.setOnClickListener { v ->
-            if (webcamEnabled) {
-                // dang bat thi tat dc neu click vao nut.
-                meetingRoom?.disableWebcam()
-                binding.ivWebcam.setImageResource(R.mipmap.ic_cam_off)
-                Toast.makeText(mContext, "Webcam Disabled", Toast.LENGTH_SHORT).show()
-            } else { // dang tat thi bat lai.
-                meetingRoom?.enableWebcam()
-                binding.ivWebcam.setImageResource(R.mipmap.ic_webcam)
-                Toast.makeText(mContext, "Webcam Enabled", Toast.LENGTH_SHORT).show()
-            }
-            webcamEnabled = !webcamEnabled
-            Log.i(TAG, "Camera: $webcamEnabled")
-        }
-
-
-        // leave
-        binding.ivLeave.setOnClickListener {
-            it.startAnimation(
-                AnimationUtils.loadAnimation(
-                    mContext, androidx.appcompat.R.anim.abc_fade_in
-                )
-            )
-            meetingRoom?.leave()
-        }
-
-    }
-
-    private fun setupMeeting() {
-        VideoSDK.config(viewModel.getToken())
-        meetingRoom = VideoSDK.initMeeting(
-            mContext, meetingID, userName, micEnabled, webcamEnabled, null, null, false, null, null
-        )
-
-        meetingRoom?.addEventListener(meetingEventListener)
-        meetingRoom?.join()
-    }
-
-    private val meetingEventListener: MeetingEventListener = object : MeetingEventListener() {
+    private val meetingEventListener = object : MeetingEventListener() {
         override fun onMeetingJoined() {
             Log.i(TAG, "onMeetingJoined()")
         }
@@ -113,17 +44,88 @@ class M008MeetingFrag : BaseFrag<M008MeetingFragBinding, M008MeetingVM>() {
 
         override fun onParticipantJoined(participant: Participant) {
             Toast.makeText(
-                mContext, participant.displayName + " joined", Toast.LENGTH_SHORT
+                mContext, "${participant.displayName} joined", Toast.LENGTH_SHORT
             ).show()
         }
 
         override fun onParticipantLeft(participant: Participant) {
             Toast.makeText(
-                mContext, participant.displayName + " left", Toast.LENGTH_SHORT
+                mContext, "${participant.displayName} left", Toast.LENGTH_SHORT
             ).show()
         }
     }
 
+    override fun initViews() {
+        token = viewModel.getToken()
+        meetingID = mdata as String
+        userName = CommonUtils.getPref(USER_NAME).toString()
+
+        Log.i(TAG, "TOKEN: $token\nmeetingID: $meetingID")
+
+//        VideoSDK.config(token)
+//        meetingRoom = VideoSDK.initMeeting(
+//            mContext, meetingID, userName, micEnabled, webcamEnabled, null, null, false, null, null
+//        )
+//
+//        meetingRoom?.addEventListener(meetingEventListener)
+//        meetingRoom?.join()
+
+        setUpMeeting()
+        setActionListeners()
+
+        binding.rvMeeting.layoutManager = GridLayoutManager(mContext, 2)
+        binding.rvMeeting.adapter = PersonAdapter(meetingRoom!!)
+
+    }
+
+    private fun setUpMeeting(){
+        VideoSDK.config(token)
+        meetingRoom = VideoSDK.initMeeting(
+            mContext, meetingID, userName, micEnabled, webcamEnabled, null, null, false, null, null
+        )
+
+        meetingRoom?.addEventListener(meetingEventListener)
+        meetingRoom?.join()
+    }
+
+    private fun setActionListeners() {
+        binding.ivMic.setOnClickListener {
+            if (micEnabled) {
+                meetingRoom?.muteMic()
+                binding.ivMic.setImageResource(R.mipmap.ic_mute)
+                Toast.makeText(mContext, "Mic Disabled", Toast.LENGTH_SHORT).show()
+            } else {
+                meetingRoom?.unmuteMic()
+                binding.ivMic.setImageResource(R.mipmap.ic_mic)
+                Toast.makeText(mContext, "Mic Enabled", Toast.LENGTH_SHORT).show()
+            }
+            micEnabled = !micEnabled
+            Log.i(TAG, "MIC: $micEnabled")
+        }
+
+        binding.ivWebcam.setOnClickListener {
+            if (webcamEnabled) {
+                meetingRoom?.disableWebcam()
+                binding.ivWebcam.setImageResource(R.mipmap.ic_cam_off)
+                Toast.makeText(mContext, "Webcam Disabled", Toast.LENGTH_SHORT).show()
+            } else {
+                meetingRoom?.enableWebcam()
+                binding.ivWebcam.setImageResource(R.mipmap.ic_webcam)
+                Toast.makeText(mContext, "Webcam Enabled", Toast.LENGTH_SHORT).show()
+            }
+            webcamEnabled = !webcamEnabled
+            Log.i(TAG, "Camera: $webcamEnabled")
+        }
+
+        binding.ivLeave.setOnClickListener {
+            it.startAnimation(
+                AnimationUtils.loadAnimation(
+                    mContext, androidx.appcompat.R.anim.abc_fade_in
+                )
+            )
+            meetingRoom?.leave()
+        }
+    }
 
     override fun initViewBinding(
         inflater: LayoutInflater, container: ViewGroup?

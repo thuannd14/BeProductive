@@ -1,6 +1,7 @@
 package com.ndt.beproductive.fragment
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -33,6 +34,14 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
         const val PASSWORD = "PASS_WORD"
         const val PERMISSION_REQ_ID = 22
         const val PERMISSION_REQ_READ_GALLERY = 23
+        private val REQUESTED_PERMISSIONS = arrayOf(
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.INTERNET
+        )
+
     }
 
     protected var colorBlue = 0
@@ -90,29 +99,20 @@ abstract class BaseFrag<T : ViewBinding, M : BaseViewModel> : Fragment(), View.O
         initViews()
     }
 
-    private val REQUESTED_PERMISSIONS = arrayOf(
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.CAMERA,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.INTERNET
-    )
-
-    protected open fun checkSelfPermission(permission: String, requestCode: Int): Boolean {
+    private fun checkSelfPermission(permission: String, requestCode: Int): Boolean {
         if (ContextCompat.checkSelfPermission(
                 mContext, permission
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            activity?.let {
-                ActivityCompat.requestPermissions(
-                    it, REQUESTED_PERMISSIONS, requestCode
-                )
-            }
+            ActivityCompat.requestPermissions(
+                mContext as Activity,
+                REQUESTED_PERMISSIONS,
+                requestCode
+            )
             return false
         }
         return true
     }
-
 
     protected abstract fun initViews()
 

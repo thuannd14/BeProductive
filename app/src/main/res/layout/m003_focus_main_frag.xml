@@ -39,8 +39,7 @@
             android:layout_weight="1"
             android:alpha="0.5"
             android:background="@drawable/bg_search"
-
-            android:padding="10dp"
+            android:padding="5dp"
             android:src="@mipmap/ic_change_bg" />
 
         <ImageView
@@ -51,7 +50,7 @@
             android:layout_weight="1"
             android:alpha="0.5"
             android:background="@drawable/bg_search"
-            android:padding="10dp"
+            android:padding="5dp"
             android:src="@mipmap/analystic" />
 
     </LinearLayout>
