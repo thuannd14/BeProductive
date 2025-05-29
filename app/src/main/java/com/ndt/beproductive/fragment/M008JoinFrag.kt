@@ -1,5 +1,6 @@
 package com.ndt.beproductive.fragment
 
+import ShareBottomSheet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,17 +18,18 @@ class M008JoinFrag : BaseFrag<M008JoinFragBinding, M008JoinVM>() {
         val TAG: String = M008JoinFrag::class.java.name
     }
 
+    private var link: String? = null
     override fun initViews() {
-        binding.btCreateMeeting.setOnClickListener {
+        binding.btnCreate.setOnClickListener {
             AndroidNetworking.post(viewModel.getUrl())
                 .addHeaders("Authorization", viewModel.getToken()).build()
                 .getAsJSONObject(object : JSONObjectRequestListener {
                     override fun onResponse(response: JSONObject) {
                         try {
-                            // response will contain `roomId`
                             val meetingId = response.getString("roomId")
-                            binding.tvRoomId.text = meetingId
-                            mCallBack.showFrag(M008MeetingFrag.TAG, meetingId, false)
+                            binding.edRoom.text = meetingId
+                            link = meetingId
+                            //mCallBack.showFrag(M008MeetingFrag.TAG, meetingId, false)
                             Log.i(TAG, "meetingId:$meetingId")
                         } catch (e: JSONException) {
                             e.printStackTrace()
@@ -42,17 +44,31 @@ class M008JoinFrag : BaseFrag<M008JoinFragBinding, M008JoinVM>() {
         }
 
 
-        binding.btJoin.setOnClickListener {
+        binding.btnJoin.setOnClickListener {
             goToMeeting()
         }
 
-        binding.ivBackJoin.setOnClickListener {
+        binding.ivBack.setOnClickListener {
             mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, false)
+        }
+        binding.btnShare.setOnClickListener {
+            showShareBottomSheet(link ?: "")
         }
     }
 
+    private fun showShareBottomSheet(link: String) {
+
+        if (link.isNullOrEmpty()) {
+            Toast.makeText(mContext, "Không có liên kết để chia sẻ", Toast.LENGTH_SHORT).show()
+        } else {
+            ShareBottomSheet(link!!).show(childFragmentManager, "ShareBottomSheet")
+        }
+
+
+    }
+
     private fun goToMeeting() {
-        val idMeeting = binding.etMeetingId.text.toString().trim()
+        val idMeeting = binding.edRoom.text.toString().trim()
         mCallBack.showFrag(M008MeetingFrag.TAG, idMeeting, true)
     }
 

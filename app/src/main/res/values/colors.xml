@@ -19,6 +19,6 @@
     <color name="light_green_pick">#BCF593</color>
     <color name="light_yellow_pick">#E2F587</color>
     <color name="gray_pick">#D9BCAD</color>
-
+    <color name="blue">#0E64D2</color>
 
 </resources>

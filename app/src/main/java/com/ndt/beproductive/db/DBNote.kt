@@ -20,7 +20,6 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
         const val COL_STATUS = "STATUS"
         const val COL_DATE = "DATE"
         const val COL_COLOR = "COLOR"
-
     }
 
     private lateinit var dbNote: SQLiteDatabase

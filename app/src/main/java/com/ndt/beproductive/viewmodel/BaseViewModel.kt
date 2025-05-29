@@ -21,7 +21,7 @@ abstract class BaseViewModel : ViewModel() {
         val TAG: String = BaseViewModel::class.java.name
         const val URL_BASE_MEETING = "https://api.videosdk.live/v2/rooms"
         const val sampleToken =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJhYTQzODIwMi0wNGM0LTRhYmMtYWU4ZC0yODc1OTM0ZDkwODgiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcxODY0Mjc0MCwiZXhwIjoxNzM0MTk0NzQwfQ.Pjuv0Ro6JGF9EVSx9gsG6AdIdg1gbZlpVpPnMGy-9h0"
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJhMDZiZTQ4My0wNmFjLTQ4YjktYWVlMi1kNWJlNTgzZGMzYTYiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTc0ODUzMDg3MSwiZXhwIjoxNzUxMTIyODcxfQ.qQiY_ZtYIXpIg4iGp7X1WVqmYG6Uxhc1FJVXFl0ZLAA"
     }
 
     val ARR_IMG = arrayOf(

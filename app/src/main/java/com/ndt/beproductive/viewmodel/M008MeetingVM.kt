@@ -10,10 +10,4 @@ class M008MeetingVM:BaseViewModel() {
         return sampleToken
     }
 
-
-
-
-
-
-
 }

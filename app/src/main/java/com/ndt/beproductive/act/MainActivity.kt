@@ -31,10 +31,10 @@ class MainActivity : BaseAct<ActivityMainBinding, CommonVM>() {
     private var uriImg: Uri? = null
 
     override fun getImg() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE)
+//        val intent = Intent()
+//        intent.type = "image/*"
+//        intent.action = Intent.ACTION_GET_CONTENT
+//        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE)
     }
 
 

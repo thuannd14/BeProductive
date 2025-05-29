@@ -1,12 +1,15 @@
 package com.ndt.beproductive
 
+
 import android.app.Application
 import com.ndt.beproductive.db.DBNote
+import com.ndt.beproductive.db.DBUser
 import live.videosdk.rtc.android.VideoSDK
 
 class App : Application() {
     private lateinit var storage: Storage
     private lateinit var myDB: DBNote
+    private lateinit var dbUser: DBUser
 
     companion object {
         lateinit var instance: App
@@ -17,6 +20,7 @@ class App : Application() {
         instance = this
         storage = Storage()
         myDB = DBNote(this)
+        dbUser = DBUser(this)
         VideoSDK.initialize(applicationContext)
     }
 
@@ -26,5 +30,9 @@ class App : Application() {
 
     fun getDB(): DBNote {
         return myDB
+    }
+
+    fun dbUser(): DBUser {
+        return dbUser
     }
 }

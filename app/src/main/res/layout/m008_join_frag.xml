@@ -1,91 +1,107 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_blue">
+    android:background="#A9C2F2"
+    android:padding="@dimen/_20dp">
 
-    <ImageView
-        android:id="@+id/iv_back_join"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="@dimen/dimen_margin_start"
-        android:layout_marginTop="@dimen/dimen_margin_top"
-        android:padding="5dp"
-        android:src="@mipmap/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ln_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="@dimen/dimen_margin_top"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="Join meeting"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/iv_back_join"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight="1"
+            android:src="@mipmap/ic_back"
+            app:layout_constraintEnd_toStartOf="@+id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_weight="7"
+            android:gravity="start"
+            android:text="Join Meeting"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_back" />
+    </LinearLayout>
 
     <Button
-        android:id="@+id/bt_create_meeting"
+        android:id="@+id/btn_create"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bg_button_start"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#C6A9F2"
+        android:paddingHorizontal="24dp"
         android:text="Create Meeting"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_back_join" />
-
-    <TextView
-        android:id="@+id/tv_meeting_id"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/inter_font"
-        android:hint="Enter Meeting ID"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        android:visibility="gone"
+        android:textColor="#000000"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_create_meeting" />
+        app:layout_constraintTop_toBottomOf="@id/ln_title" />
 
+    <!-- Room ID label -->
     <TextView
-        android:id="@+id/tv_room_id"
-        style="@style/TextAppearance.AppCompat.Headline"
+        android:id="@+id/tv_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:text="ROOM ID"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_meeting_id" />
+        app:layout_constraintTop_toBottomOf="@id/btn_create" />
 
-    <EditText
-        android:id="@+id/etMeetingId"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
+    <!-- EditText ROOM ID -->
+    <TextView
+        android:id="@+id/ed_room"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:background="@drawable/bg_join_room"
+        android:hint="---Display Room ID Here---"
+        android:textColor="@android:color/black"
+        android:textColorHint="#888888"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_room_id" />
+        app:layout_constraintTop_toBottomOf="@id/tv_room" />
 
     <Button
-        android:id="@+id/bt_join"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bg_button_start"
+        android:id="@+id/btn_join"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#C6A9F2"
         android:text="Join Meeting"
-        android:textColor="@color/black"
+        android:textColor="#000000"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etMeetingId" />
+        app:layout_constraintTop_toBottomOf="@id/ed_room" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_share"
+        android:layout_marginBottom="@dimen/_20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
