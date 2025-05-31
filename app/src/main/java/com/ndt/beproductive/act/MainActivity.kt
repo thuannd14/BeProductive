@@ -1,14 +1,19 @@
 package com.ndt.beproductive.act
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.ndt.beproductive.CommonUtils
 import com.ndt.beproductive.R
 import com.ndt.beproductive.databinding.ActivityMainBinding
+import com.ndt.beproductive.fragment.ChatbotFragment
 import com.ndt.beproductive.fragment.M00SplashFrag
 import com.ndt.beproductive.viewmodel.CommonVM
 import java.io.IOException
@@ -60,17 +65,66 @@ class MainActivity : BaseAct<ActivityMainBinding, CommonVM>() {
     }
 
 
+    private lateinit var chatBubble: View
+    private var dX = 0f
+    private var dY = 0f
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun showChatBubble() {
+        val rootLayout = findViewById<ViewGroup>(android.R.id.content)
+
+        chatBubble = layoutInflater.inflate(R.layout.chat_bubble_frame, rootLayout, false)
+
+        chatBubble.setOnTouchListener { view, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    dX = view.x - event.rawX
+                    dY = view.y - event.rawY
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    view.animate()
+                        .x(event.rawX + dX)
+                        .y(event.rawY + dY)
+                        .setDuration(0)
+                        .start()
+                }
+            }
+            false
+        }
+
+        chatBubble.setOnClickListener {
+            showFrag(ChatbotFragment.TAG, null, true)
+        }
+
+        rootLayout.addView(chatBubble)
+    }
+
+
+
 
     override fun initViews() {
         Log.i(TAG, "Main act")
         showFrag(M00SplashFrag.TAG, null, false)
         getImg()
+        showChatBubble()
+        displayAgainChatBubble()
 //        binding.includeMenu.ivNotes.setOnClickListener(this)
 //        binding.includeMenu.ivPomodoro.setOnClickListener(this)
 //        binding.includeMenu.ivExplore.setOnClickListener(this)
 //        binding.includeMenu.ivSetting.setOnClickListener(this)
 //
 //       changeColor(ALL_NOTES, colorBlue, colorBlack)
+    }
+
+    private fun displayAgainChatBubble() {
+        supportFragmentManager.addOnBackStackChangedListener {
+            val currentFragment = supportFragmentManager.findFragmentById(android.R.id.content)
+            if (currentFragment is ChatbotFragment) {
+                chatBubble.visibility = View.GONE
+            } else {
+                chatBubble.visibility = View.VISIBLE
+            }
+        }
     }
 
 //    override fun clickViews(v: View?) {

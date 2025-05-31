@@ -1,7 +1,18 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
+
+val localProps = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) load(file.inputStream())
+}
+val geminiApiKey: String =
+    localProps.getProperty("API_KEY_GOOGLE_GEMINI")
+        ?: System.getenv("API_KEY_GOOGLE_GEMINI")
+        ?: ""
 
 android {
     namespace = "com.ndt.beproductive"
@@ -9,6 +20,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     defaultConfig {
@@ -19,6 +31,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_KEY_GOOGLE_GEMINI", "\"$geminiApiKey\"")
     }
 
     buildTypes {

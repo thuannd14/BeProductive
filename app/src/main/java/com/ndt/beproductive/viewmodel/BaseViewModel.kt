@@ -22,6 +22,9 @@ abstract class BaseViewModel : ViewModel() {
         const val URL_BASE_MEETING = "https://api.videosdk.live/v2/rooms"
         const val sampleToken =
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJhMDZiZTQ4My0wNmFjLTQ4YjktYWVlMi1kNWJlNTgzZGMzYTYiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTc0ODUzMDg3MSwiZXhwIjoxNzUxMTIyODcxfQ.qQiY_ZtYIXpIg4iGp7X1WVqmYG6Uxhc1FJVXFl0ZLAA"
+
+        const val BASE_URL_GG_GEMINI = "https://generativelanguage.googleapis.com/"
+
     }
 
     val ARR_IMG = arrayOf(
@@ -49,7 +52,7 @@ abstract class BaseViewModel : ViewModel() {
 
     protected open fun getAPI(): API {
         val retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+            Retrofit.Builder().baseUrl(BASE_URL_GG_GEMINI).addConverterFactory(GsonConverterFactory.create())
                 .client(
                     // cau hinh OkHttpClient quan li cac request va response.
                     OkHttpClient.Builder().callTimeout(30, TimeUnit.SECONDS).build()

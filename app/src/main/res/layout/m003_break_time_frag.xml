@@ -52,15 +52,12 @@
             android:textStyle="normal" />
     </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_exit_break"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:background="@drawable/bg_button_start"
         android:fontFamily="@font/inter_font"
         android:text="@string/txt_exit"
-        android:textColor="@color/purple"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

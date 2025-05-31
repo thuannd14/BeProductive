@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/bg_button_start"
-        android:padding="10dp"
-        android:weightSum="5">
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/iv_notes"
@@ -32,14 +31,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@mipmap/ic_explore" />
+            android:src="@mipmap/ic_explore"
+            android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/iv_setting"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@mipmap/ic_setting" />
 
         <ImageView
             android:id="@+id/iv_room"
@@ -47,6 +41,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@mipmap/ic_room" />
+
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@mipmap/ic_setting" />
 
     </TableRow>
 </LinearLayout>

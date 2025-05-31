@@ -3,8 +3,6 @@ package com.ndt.beproductive.fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.ndt.beproductive.act.MainActivity
-import com.ndt.beproductive.databinding.M001OnBoarding2FragBinding
 import com.ndt.beproductive.databinding.M001OnBoarding3FragBinding
 import com.ndt.beproductive.viewmodel.CommonVM
 
