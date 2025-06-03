@@ -2,6 +2,8 @@ package com.ndt.beproductive.viewmodel
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.ndt.beproductive.CommonUtils
+import com.ndt.beproductive.fragment.BaseFrag.Companion.USER_NAME
 import com.ndt.beproductive.model.Note
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -41,7 +43,7 @@ class M002CreateNoteVM : BaseViewModel() {
         note.setContent(content)
         note.setColor(colorValue)
         note.setDateTime(formattedDateTime)
-        myDB.insertNote(note)
+        myDB.insertNote(note, CommonUtils.getPref(USER_NAME) ?: "")
         Log.i(TAG, "saveContent: $content \n $colorValue \n $formattedDateTime")
     }
 }

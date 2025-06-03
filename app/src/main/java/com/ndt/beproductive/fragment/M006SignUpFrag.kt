@@ -1,18 +1,11 @@
 package com.ndt.beproductive.fragment
 
-import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.MediaStore
 import android.text.InputType
-import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import com.ndt.beproductive.App
 import com.ndt.beproductive.CommonUtils
-import com.ndt.beproductive.OpenGallery
 import com.ndt.beproductive.R
 import com.ndt.beproductive.databinding.M006SignUpFragBinding
 import com.ndt.beproductive.viewmodel.M006SignUpVM
@@ -21,59 +14,33 @@ class M006SignUpFrag : BaseFrag<M006SignUpFragBinding, M006SignUpVM>() {
 
     companion object {
         val TAG: String = M006SignUpFrag::class.java.name
-        var emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
     }
 
-    private var isFlag = true
-    private var uri: Uri? = null
     private var isPasswordVisible = false
-
-
+    private var isRePasswordVisible = false
 
     override fun initViews() {
+        // Toggle mật khẩu
         binding.ivShowPassword.setOnClickListener {
-            if (isPasswordVisible) {
-                // Ẩn mật khẩu
-                binding.edPassReg.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                binding.ivShowPassword.setImageResource(R.drawable.ic_show) // icon con mắt
-            } else {
-                // Hiện mật khẩu
-                binding.edPassReg.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                binding.ivShowPassword.setImageResource(R.drawable.ic_hide) // icon con mắt có gạch
-            }
-            // Di chuyển con trỏ về cuối dòng
-            binding.edPassReg.setSelection(binding.edPassReg.text.length)
             isPasswordVisible = !isPasswordVisible
+            togglePasswordVisibility(binding.edPassReg, binding.ivShowPassword, isPasswordVisible)
         }
 
         binding.ivEyeRepassword.setOnClickListener {
-            if (isPasswordVisible) {
-                // Ẩn mật khẩu
-                binding.edRePassReg.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                binding.ivEyeRepassword.setImageResource(R.drawable.ic_show) // icon con mắt
-            } else {
-                // Hiện mật khẩu
-                binding.edRePassReg.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                binding.ivEyeRepassword.setImageResource(R.drawable.ic_hide) // icon con mắt có gạch
-            }
-            // Di chuyển con trỏ về cuối dòng
-            binding.edRePassReg.setSelection(binding.edPassReg.text.length)
-            isPasswordVisible = !isPasswordVisible
+            isRePasswordVisible = !isRePasswordVisible
+            togglePasswordVisibility(
+                binding.edRePassReg,
+                binding.ivEyeRepassword,
+                isRePasswordVisible
+            )
         }
+
         binding.btnSignup.setOnClickListener {
-            signUp()
-            if (isFlag) {
+            if (signUp()) {
                 mCallBack.showFrag(M001OnBoarding1Frag.TAG, null, false)
-            } else {
-                Toast.makeText(mContext, "Please Enter Valid Information", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
             }
         }
+
         binding.btnFacebook.setOnClickListener {
             mCallBack.showFrag(M006LoginFrag.TAG, null, false)
         }
@@ -83,43 +50,62 @@ class M006SignUpFrag : BaseFrag<M006SignUpFragBinding, M006SignUpVM>() {
         }
     }
 
+    private fun togglePasswordVisibility(
+        field: android.widget.EditText,
+        eyeIcon: android.widget.ImageView,
+        isVisible: Boolean
+    ) {
+        field.inputType = if (isVisible) {
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        } else {
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        }
+        field.setSelection(field.text.length)
+        eyeIcon.setImageResource(if (isVisible) R.drawable.ic_hide else R.drawable.ic_show)
+    }
+
     private fun signUp(): Boolean {
-        val password = binding.edPassReg.text.toString().trim()
         val userName = binding.edUsernameReg.text.toString().trim()
+        val password = binding.edPassReg.text.toString().trim()
         val rePassword = binding.edRePassReg.text.toString().trim()
 
-        if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(password) || TextUtils.isEmpty(
-                rePassword
-            )
-        ) {
-            isFlag = false
+        if (userName.isEmpty() || password.isEmpty() || rePassword.isEmpty()) {
+            Toast.makeText(mContext, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            return false
         }
 
-        if (password.length < 6 ) {
-            isFlag = false
-        }else if(password != rePassword){
-            isFlag = false
+        if (password.length < 6) {
+            Toast.makeText(mContext, "Password must be at least 6 characters", Toast.LENGTH_SHORT)
+                .show()
+            return false
+        }
+
+        if (password != rePassword) {
             Toast.makeText(mContext, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            return false
         }
-        else {
-            if (App.instance.dbUser().insertUser(userName, password)) {
-                Toast.makeText(mContext, "Sign Up Successful", Toast.LENGTH_SHORT).show()
-                isFlag = true
-            } else {
-                Toast.makeText(mContext, "Sign Up Failed", Toast.LENGTH_SHORT).show()
-                isFlag = false
-            }
 
+        val db = App.instance.dbUser()
+        if (db.isUsernameExists(userName)) {
+            Toast.makeText(mContext, "Username already exists", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        val inserted = db.insertUser(userName, password)
+        return if (inserted) {
+            Toast.makeText(mContext, "Sign Up Successful", Toast.LENGTH_SHORT).show()
             CommonUtils.savePref(USER_NAME, userName)
             CommonUtils.savePref(PASSWORD, password)
-
+            true
+        } else {
+            Toast.makeText(mContext, "Sign Up Failed", Toast.LENGTH_SHORT).show()
+            false
         }
-
-        return isFlag
     }
 
     override fun initViewBinding(
-        inflater: LayoutInflater, container: ViewGroup?
+        inflater: LayoutInflater,
+        container: ViewGroup?
     ): M006SignUpFragBinding {
         return M006SignUpFragBinding.inflate(inflater, container, false)
     }

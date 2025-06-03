@@ -49,7 +49,7 @@ class M008JoinFrag : BaseFrag<M008JoinFragBinding, M008JoinVM>() {
         }
 
         binding.ivBack.setOnClickListener {
-            mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, false)
+            mCallBack.backPrevious()
         }
         binding.btnShare.setOnClickListener {
             showShareBottomSheet(link ?: "")

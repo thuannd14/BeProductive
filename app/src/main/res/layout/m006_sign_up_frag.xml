@@ -32,8 +32,8 @@
 
         <EditText
             android:id="@+id/edUsernameReg"
-            android:layout_width="300dp"
-            android:layout_height="52dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50dp"
             android:background="@drawable/bg_edt_signup"
             android:hint="Enter Your Username"
             android:inputType="textPersonName"
@@ -45,8 +45,8 @@
 
         <EditText
             android:id="@+id/edEmailReg"
-            android:layout_width="300dp"
-            android:layout_height="52dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50dp"
             android:visibility="gone"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_edt_signup"
@@ -59,8 +59,8 @@
             android:textStyle="bold" />
 
         <RelativeLayout
-            android:layout_width="300dp"
-            android:layout_height="52dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_edt_signup">
 
@@ -93,8 +93,8 @@
 
 
         <RelativeLayout
-            android:layout_width="300dp"
-            android:layout_height="52dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_edt_signup">
 
@@ -166,7 +166,7 @@
         android:id="@+id/or_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/_20dp"
         android:text="Or"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"

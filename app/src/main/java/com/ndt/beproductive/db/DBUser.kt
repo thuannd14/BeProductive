@@ -39,6 +39,10 @@ class DBUser(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
     }
 
     fun insertUser(userName: String,password: String): Boolean {
+        if (isUsernameExists(userName)) {
+            return false // Không thêm được vì đã tồn tại
+        }
+
         val db = writableDatabase
         val values = ContentValues()
         values.put(COL_ID, userName)
@@ -59,4 +63,33 @@ class DBUser(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
         db.close()
         return isValid
     }
+    fun isUsernameExists(username: String): Boolean {
+        val db = readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT * FROM $TABLE_NAME WHERE $COL_ID = ?",
+            arrayOf(username)
+        )
+        val exists = cursor.count > 0
+        cursor.close()
+        db.close()
+        return exists
+    }
+
+    fun updatePassword(userName: String, newPassword: String): Boolean {
+        if( !isUsernameExists(userName) ) {
+            return false // ko tồn tại user
+        }
+
+        val db = writableDatabase
+        val values = ContentValues()
+        values.put(COL_PASSWORD, newPassword)
+
+        // Cập nhật password cho username tương ứng
+        val result = db.update(TABLE_NAME, values, "$COL_ID = ?", arrayOf(userName))
+        db.close()
+
+        // Trả về true nếu có ít nhất 1 dòng được cập nhật
+        return result > 0
+    }
+
 }

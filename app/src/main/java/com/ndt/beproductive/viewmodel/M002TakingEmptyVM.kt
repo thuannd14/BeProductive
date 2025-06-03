@@ -2,6 +2,8 @@ package com.ndt.beproductive.viewmodel
 
 import android.util.Log
 import com.ndt.beproductive.App
+import com.ndt.beproductive.CommonUtils
+import com.ndt.beproductive.fragment.BaseFrag.Companion.USER_NAME
 import com.ndt.beproductive.model.Note
 
 class M002TakingEmptyVM : BaseViewModel() {
@@ -12,8 +14,8 @@ class M002TakingEmptyVM : BaseViewModel() {
     private lateinit var noteListDB: MutableList<Note>
 
     fun getNoteList(): MutableList<Note> {
-        noteListDB = ArrayList<Note>()
-        noteListDB = myDB.showNote()
+        noteListDB = ArrayList()
+        noteListDB = myDB.showNote(CommonUtils.getPref(USER_NAME) ?: "")
         Log.i(TAG, "Size ${noteListDB.size}")
         return noteListDB
     }

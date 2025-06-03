@@ -29,12 +29,30 @@ class M006LoginFrag : BaseFrag<M006LoginFragBinding, M006LoginVM>() {
             val isValid = App.instance.dbUser().isValidUser(username, password)
 
             if (isValid) {
+                // Lưu thông tin đăng nhập vào SharedPreferences
+                CommonUtils.savePref(USER_NAME, username)
+                CommonUtils.savePref(PASSWORD, username)
                 mCallBack.showFrag(M002TakingEmptyFrag.TAG, null, false)
             } else {
                 Toast.makeText(mContext, "Tài khoản hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show()
             }
         }
+
+        binding.tvForgetPassword.setOnClickListener{
+            forgetPassword()
+        }
+
+        binding.tvSignUp.setOnClickListener {
+            mCallBack.showFrag(M006SignUpFrag.TAG, null, false)
+        }
+
+
     }
+
+    private fun forgetPassword() {
+
+    }
+
     override fun initViewBinding(
         inflater: LayoutInflater, container: ViewGroup?
     ): M006LoginFragBinding {

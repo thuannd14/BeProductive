@@ -35,6 +35,8 @@ class M005SettingFrag : BaseFrag<M005ProfileFragBinding, M005SettingVM>() {
 
         // log out.
         binding.ivLogOut.setOnClickListener {
+            CommonUtils.removePref(USER_NAME)
+            CommonUtils.removePref(PASSWORD)
             mCallBack.showFrag(M006LoginFrag.TAG, null, false)
         }
     }

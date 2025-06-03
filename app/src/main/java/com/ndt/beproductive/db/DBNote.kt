@@ -20,13 +20,22 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
         const val COL_STATUS = "STATUS"
         const val COL_DATE = "DATE"
         const val COL_COLOR = "COLOR"
+        const val COL_USER = "USER"
     }
 
     private lateinit var dbNote: SQLiteDatabase
 
     // Viết những câu lệnh tạo bảng. Gọi khi db đã đc tạo.
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_NAME(ID INTEGER PRIMARY KEY AUTOINCREMENT , NOTE TEXT , STATUS INTEGER,DATE TEXT, COLOR INTEGER)")
+        db?.execSQL(
+            "CREATE TABLE IF NOT EXISTS $TABLE_NAME(" +
+                    "$COL_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "$COL_NOTE TEXT, " +
+                    "$COL_STATUS INTEGER, " +
+                    "$COL_DATE TEXT, " +
+                    "$COL_COLOR INTEGER, " +
+                    "$COL_USER TEXT)"
+        )
     }
 
     // Được gọi khi db được nâng cấp. CRUD.
@@ -36,16 +45,18 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
     }
 
     // Them Note.
-    fun insertNote(note: Note) {
+    fun insertNote(note: Note, userName: String) {
         dbNote = this.writableDatabase
         val values = ContentValues()
         values.put(COL_NOTE, note.getContent())
         values.put(COL_STATUS, 0)
         values.put(COL_DATE, note.getDateTime())
         values.put(COL_COLOR, note.getColor())
+        values.put(COL_USER, userName)  // Gắn user vào
         dbNote.insert(TABLE_NAME, null, values)
-        Log.i(TAG, "Saved success: ${note.getDateTime()}")
+        Log.i(TAG, "Saved success for user: $userName at ${note.getDateTime()}")
     }
+
 
     // update note.
     // update noi dung cua note.
@@ -78,30 +89,32 @@ class DBNote(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VER
     // Hien thi cac note len RecyclerView.
     // tra ve la ds note lay tu db.
     @SuppressLint("Range", "Recycle")
-    fun showNote(): MutableList<Note> {
+    fun showNote(userName: String): MutableList<Note> {
         dbNote = this.writableDatabase
-        var cursor: Cursor? = null
-        var noteList: MutableList<Note> = ArrayList<Note>()
+        val noteList: MutableList<Note> = mutableListOf()
         dbNote.beginTransaction()
+        var cursor: Cursor? = null
         try {
-            cursor = dbNote.query(TABLE_NAME, null, null, null, null, null, null)
-            if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    do {
-                        val note = Note()
-                        note.setID(cursor.getInt(cursor.getColumnIndex(COL_ID)))
-                        note.setContent(cursor.getString(cursor.getColumnIndex(COL_NOTE)))
-                        note.setDateTime(cursor.getString(cursor.getColumnIndex(COL_DATE)))
-                        note.setColor(cursor.getInt(cursor.getColumnIndex(COL_COLOR)))
-                        noteList.add(note)
-                        Log.i(TAG, "DONE!!")
-                    } while (cursor.moveToNext())
-                }
+            cursor = dbNote.query(
+                TABLE_NAME, null,
+                "$COL_USER = ?", arrayOf(userName),
+                null, null, null
+            )
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    val note = Note()
+                    note.setID(cursor.getInt(cursor.getColumnIndex(COL_ID)))
+                    note.setContent(cursor.getString(cursor.getColumnIndex(COL_NOTE)))
+                    note.setDateTime(cursor.getString(cursor.getColumnIndex(COL_DATE)))
+                    note.setColor(cursor.getInt(cursor.getColumnIndex(COL_COLOR)))
+                    noteList.add(note)
+                } while (cursor.moveToNext())
             }
         } finally {
             dbNote.endTransaction()
-            cursor!!.close()
+            cursor?.close()
         }
         return noteList
     }
+
 }
