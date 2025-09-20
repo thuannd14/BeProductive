@@ -1,0 +1,118 @@
+# https://chatgpt.com/c/68ce70a7-f78c-832a-a9ff-69466e07bc03
+### 1. Coroutines
+    - là một cơ chế xử lý bất đồng bộ (asynchronous) trong Kotlin,
+    - thay thế cho Thread, AsyncTask hay RxJava với code ngắn gọn, dễ đọc.
+    - Được thiết kế để viết code non-blocking, nhưng trông giống code tuần tự
+    - Chạy trên nền suspend function (hàm có thể bị tạm dừng mà không block thread).
+
+### 2. Các khái niệm nền tảng
+#### 2.1 Suspend Function
+    - Hàm có thể bị tạm dừng và tiếp tục lại sau đó.
+    - Được khai báo với từ khóa `suspend`.
+    - Chỉ có thể được gọi từ một coroutine hoặc từ một suspend function khác.
+    - Ví dụ:
+      ```kotlin
+      suspend fun fetchData(): String {
+          delay(1000) // Giả lập việc chờ đợi dữ liệu
+          return "Dữ liệu đã được tải"
+      }
+      ```
+#### 2.2 CoroutineScope
+    - Quản lý vòng đời của coroutine.
+    - Khi scope bị hủy → tất cả coroutine bên trong cũng hủy theo.
+    - Các scope phổ biến:
+        + GlobalScope → tồn tại suốt vòng đời app (ít dùng).
+        + lifecycleScope (Android) → gắn với vòng đời Activity/Fragment.
+        + viewModelScope (Android) → gắn với vòng đời ViewModel.
+    - Ví dụ:
+      ```kotlin
+      lifecycleScope.launch {
+          val data = fetchData()
+          println(data)
+      }
+      ```
+#### 2.3 Coroutine Builders
+    - launch {} → chạy coroutine, không trả về kết quả.
+    - async {} → chạy coroutine, trả về Deferred (giống Future), có thể await để lấy kết quả.
+    - runBlocking {} → block thread hiện tại (chỉ dùng trong test, main).
+    - Ví dụ:
+      ```kotlin
+      // launch
+      lifecycleScope.launch {
+          val data = fetchData()
+          println(data)
+      }
+
+      // async
+      lifecycleScope.launch {
+          val deferred = async { fetchData() }
+          val data = deferred.await()
+          println(data)
+      }
+      ```
+#### 2.4 Dispatchers
+    - Xác định thread mà coroutine sẽ chạy trên đó.
+    - Các loại Dispatchers:
+        + Dispatchers.Main → chạy trên main thread (UI thread).
+        + Dispatchers.IO → chạy trên thread pool tối ưu cho I/O (network, file).
+        + Dispatchers.Default → chạy trên thread pool tối ưu cho công việc nặng CPU.(sort, tính toán)
+        + Dispatchers.Unconfined → không ràng buộc với bất kỳ thread cụ thể nào.
+    - Ví dụ:
+      ```kotlin
+      lifecycleScope.launch(Dispatchers.IO) {
+          val data = fetchData()
+          withContext(Dispatchers.Main) {
+              // Cập nhật UI
+              println(data)
+          }
+      }
+      ```
+#### 2.5 Job & Cancellation
+    - launch trả về một Job.
+    - Có thể hủy coroutine qua job.cancel().
+    ```kotlin
+    val job = lifecycleScope.launch {
+        repeat(5) {
+            delay(500)
+            println("Task $it")
+        }
+    }
+    job.cancel() // dừng ngay lập tức
+    ```
+#### 2.6 Structured Concurrency
+    - Quản lý vòng đời coroutine theo cấu trúc code.
+    - Coroutine con sẽ tự động hủy khi coroutine cha hủy.
+    - Giúp tránh rò rỉ memory và các vấn đề về đồng bộ.
+    ```kotlin
+    lifecycleScope.launch {
+        val data1 = async { fetchData1() } // coroutine con 1
+        val data2 = async { fetchData2() } // coroutine con 2
+        println(data1.await())
+        println(data2.await())
+    }
+    ```
+#### 2.7 Advanced Coroutines
+    ##### withContext: Chuyển đổi dispatcher trong coroutine
+    ```kotlin
+    lifecycleScope.launch { // Tại đây coroutine được chạy mặc định trên Main thread (UI thread).
+        val data = withContext(Dispatchers.IO) {
+            fetchData() // Chạy trên IO dispatcher nhưng vẫn nằm trong coroutine scope hiện tại. không làm block Main thread.
+        }
+        println(data) // Quay lại Main dispatcher
+    }
+    ```
+    ##### async & await: Chạy nhiều công việc song song và chờ kết quả
+    ```kotlin
+    lifecycleScope.launch {
+        val deferred1 = async { fetchData1() }
+        val deferred2 = async { fetchData2() }
+        val result1 = deferred1.await()
+        val result2 = deferred2.await()
+        println("$result1, $result2")
+    }
+    ```
+    ##### SupervisorJob
+    Khác với Job: Nếu 1 coroutine con lỗi, các coroutine khác không bị hủy.
+#### 2.8 Flow (Coroutine + Reactive) 
+
+

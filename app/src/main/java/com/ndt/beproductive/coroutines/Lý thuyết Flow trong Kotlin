@@ -1,0 +1,204 @@
+1. Flow là gì?
+     - Flow là một phần của thư viện Kotlin Coroutines. để xử lý dữ liệu bất đồng bộ dạng stream.
+     - Tưởng tượng giống như một ống dẫn dữ liệu: ở đầu ống ta emit (phát ra), ở cuối ống ta collect (thu thập).
+     - Flow sinh ra để thay thế cho RxJava Observable, nhưng đơn giản và tích hợp trực tiếp với Coroutines.
+     - Cold Flow (Flow “lạnh”):
+        + Chỉ bắt đầu chạy khi có collector (người thu thập dữ liệu). flow {} mặc định là cold.
+        + Mỗi collector sẽ nhận lại toàn bộ luồng từ đầu.
+        + Mỗi lần mở, nó phát lại từ đầu.
+     - Hot Flow (Flow “nóng”):
+        + Luôn chạy và phát dữ liệu, bất kể có ai thu thập hay không. Ví dụ: StateFlow, SharedFlow.
+        + Người đến sau sẽ không nhận lại từ đầu, mà chỉ nhận từ thời điểm bắt đầu collect (trừ khi có buffer hoặc replay).
+
+2. Cách tạo Flow
+        - Sử dụng hàm `flow {}` để tạo một Flow.
+        - Bên trong khối `flow {}`, ta có thể sử dụng `emit(value)` để phát ra các giá trị.
+        - Ví dụ:
+        ```kotlin
+        import kotlinx.coroutines.flow.Flow
+        import kotlinx.coroutines.flow.flow
+
+        fun simpleFlow(): Flow<Int> = flow {
+            for (i in 1..5) {
+                emit(i) // Phát ra giá trị i
+                delay(100) // Giả lập việc chờ đợi
+            }
+        }
+        ```
+        -------> Đây là cold stream → chỉ chạy khi có người collect.
+
+3. Cách thu thập dữ liệu từ Flow
+        - Sử dụng hàm `collect {}` để thu thập các giá trị từ Flow.
+        - Phải gọi `collect {}` bên trong một coroutine( collect {} là suspend function → chạy trong coroutine.)
+        - Ví dụ:
+        ```kotlin
+        import kotlinx.coroutines.flow.collect
+        import kotlinx.coroutines.launch
+        import kotlinx.coroutines.runBlocking
+
+        runBlocking {
+            launch {
+                simpleFlow().collect { value ->
+                    println("Received: $value") // Mỗi lần emit, collect sẽ nhận được giá trị tương ứng.
+                }
+            }
+        }
+        ```
+4. Flow vs suspend function
+        - Flow có thể phát ra nhiều giá trị theo thời gian, trong khi suspend function chỉ trả về một giá trị duy nhất.
+        - Có thể ứng dụng để lấy đoạn chat liên tục hoặc vị trí GPS cập nhật
+        Ví dụ:
+        ```kotlin
+        ---- suspend func -----
+        suspend fun getUserFromApi(): User {
+            delay(1000) // giả lập gọi API
+            return User("Lam", 25)
+        }
+
+        lifecycleScope.launch {
+            val user = getUserFromApi() // chỉ trả về 1 lần
+            println("User: $user")
+        }
+
+        ---- Flow ----
+        fun getNumbersFlow(): Flow<Int> = flow {
+            for (i in 1..5) {
+                delay(1000) // giả lập dữ liệu đến dần theo thời gian
+                emit(i)     // phát ra giá trị
+            }
+        }
+
+        lifecycleScope.launch {
+            getNumbersFlow().collect { number ->
+                println("Nhận được: $number")
+            }
+        }
+        ```
+        - Flow hỗ trợ các toán tử để biến đổi, lọc, kết hợp các luồng dữ liệu.
+        - Flow là cold stream, chỉ hoạt động khi có người collect, còn suspend function thì không.
+
+5. Các loại Flow đặc biệt: StateFlow và SharedFlow
+   5.1 StateFlow:
+   + Đại diện cho một trạng thái có thể quan sát được, luôn giữ giá trị hiện tại và phát ra giá trị mới khi thay đổi.
+   + Khi có collector mới → nó ngay lập tức nhận được giá trị hiện tại (giống LiveData trong Android).
+    - Ví dụ về StateFlow:
+            ```kotlin
+            import kotlinx.coroutines.flow.MutableStateFlow
+            import kotlinx.coroutines.flow.StateFlow
+
+            class ViewModel {
+                private val _state = MutableStateFlow(0) // Giá trị ban đầu là 0
+                val state: StateFlow<Int> get() = _state
+
+                fun increment() {
+                    _state.value += 1 // Cập nhật giá trị
+                }
+            }
+
+            UI:
+            lifecycleScope.launch {
+                viewModel.state.collect { value ->
+                    tvCounter.text = value.toString()
+                }
+            }
+            ```
+
+   5.2 SharedFlow:
+        - Là một hot stream, không cần phải collect mới hoạt động.
+        - Dùng khi bạn muốn phát sự kiện cho nhiều nơi cùng nghe (UI, service, nhiều màn hình).
+        - Không lưu state, chỉ phát giá trị khi emit.
+        - Dùng để phát event cho nhiều subscriber (giống PublishSubject trong RxJava).
+        - Thay thế cho EventBus hoặc PublishSubject trong RxJava.
+        - Có thể config buffer & replay để phát lại sự kiện cũ cho subscriber mới.
+        ---------> SharedFlow như một loa phát thanh, ai nghe thì nhận, ai không nghe thì bỏ lỡ.
+
+        - Ví dụ về SharedFlow:
+        ```kotlin
+        import kotlinx.coroutines.flow.MutableSharedFlow
+        import kotlinx.coroutines.flow.asSharedFlow
+
+        class EventBus {
+            private val _events = MutableSharedFlow<String>() // có thể emit
+            val events = _events.asSharedFlow() // chỉ cho phép collect( khôgn emit từ ngoài)
+
+            suspend fun sendEvent(event: String) {
+                _events.emit(event) // Phát ra sự kiện mới
+            }
+        }
+        ```
+        - Cấu hình buffer/replay
+        val _events = MutableSharedFlow<String>(
+            replay = 1, // lưu lại 1 event gần nhất
+            extraBufferCapacity = 2 // thêm chỗ chứa event, chứa trên 2 event trong buffer ==> tổng sức chứa = replay + buffer = 1 + 2 = 3.
+        )
+        - Giải thích:
+          + replay = 0 → không lưu event cũ
+          + extraBufferCapacity = 0 → không có buffer thêm
+          + replay = >1 -> lưu lại 1 gía trị cuối cùng. thường dùng để UI nhận lại event mới nhất khi rotate màn hình.
+          + extraBufferCapacity: cho phép emit trên sự kiện khi không có ai collect.
+          + Nếu gọi emit() nhiều hơn sức chứa → các event cũ hơn sẽ bị loại bỏ theo cơ chế FIFO (first in - first out).
+          + _events.tryEmit("A")
+            _events.tryEmit("B")
+            _events.tryEmit("C")
+            _events.tryEmit("D") // đẩy A ra ngoài buffer
+          + Do replay = 1, collector sẽ ngay lập tức nhận "D" (giá trị cuối cùng).
+            Sau đó nếu còn event đang chờ trong buffer → sẽ lần lượt nhận "B", "C" (nếu chúng chưa được consume).
+
+   5.3 So sánh StateFlow và SharedFlow:
+        | Đặc điểm         | StateFlow                          |       SharedFlow                         |
+        |------------------|----------------------------------- |-----------------------------------|
+        | Loại Flow        | Hot stream                         | Hot stream                        |
+        | Lưu trạng thái   | Có, luôn giữ giá trị hiện tại      | Không, không lưu giá trị           |
+        | Giá trị ban đầu  | Phải có giá trị khởi tạo           | Không cần giá trị khởi tạo         |
+        | Phát lại giá trị | Collector mới nhận giá trị hiện tại| Không phát lại giá trị cũ trừ khi cấu hình buffer/replay |
+        | Ứng dụng         | Quản lý trạng thái UI              | Phát sự kiện cho nhiều nơi cùng nghe |
+
+        Ví dụ viết hợp cả 2 StateFlow và SharedFlow trong ViewModel:
+        ```kotlin
+        class LoginViewModel : ViewModel() {
+            private val _uiState = MutableStateFlow<LoginState>(LoginState.Idle)
+            val uiState: StateFlow<LoginState> = _uiState
+
+            private val _events = MutableSharedFlow<String>()
+            val events: SharedFlow<String> = _events
+
+            fun login(user: String, pass: String) {
+                viewModelScope.launch {
+                    _uiState.value = LoginState.Loading
+                    try {
+                        val result = repo.login(user, pass)
+                        _uiState.value = LoginState.Success(result)
+                        _events.emit("navigate_home") // event chuyển màn hình
+                    } catch (e: Exception) {
+                        _uiState.value = LoginState.Error("Login failed")
+                        _events.emit("show_error") // event hiển thị lỗi
+                    }
+                }
+            }
+        }
+
+        UI:
+        lifecycleScope.launch {
+            viewModel.uiState.collect { state ->
+                when(state) {
+                    is LoginState.Loading -> showLoading()
+                    is LoginState.Success -> showUser(state.user)
+                    is LoginState.Error -> showError(state.message)
+                    else -> {}
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.events.collect { event ->
+                when(event) {
+                    "navigate_home" -> navigateToHome()
+                    "show_error" -> showToast("Login thất bại")
+                }
+            }
+        }
+
+        -------> Tóm lại:
+        + SharedFlow dùng để phát sự kiện (event). Nên khôgn cần lưu giữ giá trị mặc định. Navigation, Toast, Snackba
+        + StateFlow dùng để lưu trạng thái (state). Nên cần có giá trị mặc định. quản lý state (Loading, Data, Error).
+        ```
