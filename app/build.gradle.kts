@@ -3,6 +3,8 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("kotlin-kapt")
+    id ("dagger.hilt.android.plugin")
 }
 
 val localProps = Properties().apply {
@@ -65,7 +67,7 @@ dependencies {
 
     val lifecycle_version = "2.8.0"
     val arch_version = "2.2.0"
-
+    val hilt_version = "2.48"
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
 
@@ -110,5 +112,11 @@ dependencies {
 
     // library to perform Network call to generate a meeting id
     implementation("com.amitshekhar.android:android-networking:1.0.2")
+
+    implementation ("com.google.dagger:hilt-android:$hilt_version")
+    kapt ("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+    implementation ("androidx.activity:activity-ktx:1.9.0")
+    implementation ("androidx.fragment:fragment-ktx:1.8.0")
 
 }
