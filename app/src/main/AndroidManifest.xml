@@ -30,7 +30,7 @@
         android:theme="@style/Theme.BeProductive"
         tools:targetApi="31">
         <activity
-            android:name=".act.MainActivity"
+            android:name=".todoappnew.ui.MainTaskToDoActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

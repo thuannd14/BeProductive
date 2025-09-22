@@ -4,8 +4,10 @@ package com.ndt.beproductive
 import android.app.Application
 import com.ndt.beproductive.db.DBNote
 import com.ndt.beproductive.db.DBUser
+import dagger.hilt.android.HiltAndroidApp
 import live.videosdk.rtc.android.VideoSDK
 
+@HiltAndroidApp
 class App : Application() {
     private lateinit var storage: Storage
     private lateinit var myDB: DBNote

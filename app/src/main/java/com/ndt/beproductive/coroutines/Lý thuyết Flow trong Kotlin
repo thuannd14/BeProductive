@@ -145,13 +145,13 @@
             Sau đó nếu còn event đang chờ trong buffer → sẽ lần lượt nhận "B", "C" (nếu chúng chưa được consume).
 
    5.3 So sánh StateFlow và SharedFlow:
-        | Đặc điểm         | StateFlow                          |       SharedFlow                         |
-        |------------------|----------------------------------- |-----------------------------------|
-        | Loại Flow        | Hot stream                         | Hot stream                        |
-        | Lưu trạng thái   | Có, luôn giữ giá trị hiện tại      | Không, không lưu giá trị           |
-        | Giá trị ban đầu  | Phải có giá trị khởi tạo           | Không cần giá trị khởi tạo         |
+        | Đặc điểm         | StateFlow                          |       SharedFlow                                         |
+        |------------------|----------------------------------- |----------------------------------------------------------|
+        | Loại Flow        | Hot stream                         | Hot stream                                               |
+        | Lưu trạng thái   | Có, luôn giữ giá trị hiện tại      | Không, không lưu giá trị                                 |
+        | Giá trị ban đầu  | Phải có giá trị khởi tạo           | Không cần giá trị khởi tạo                               |
         | Phát lại giá trị | Collector mới nhận giá trị hiện tại| Không phát lại giá trị cũ trừ khi cấu hình buffer/replay |
-        | Ứng dụng         | Quản lý trạng thái UI              | Phát sự kiện cho nhiều nơi cùng nghe |
+        | Ứng dụng         | Quản lý trạng thái UI              | Phát sự kiện cho nhiều nơi cùng nghe                     |
 
         Ví dụ viết hợp cả 2 StateFlow và SharedFlow trong ViewModel:
         ```kotlin
