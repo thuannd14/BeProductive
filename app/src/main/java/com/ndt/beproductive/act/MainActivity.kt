@@ -14,11 +14,14 @@ import com.ndt.beproductive.CommonUtils
 import com.ndt.beproductive.R
 import com.ndt.beproductive.databinding.ActivityMainBinding
 import com.ndt.beproductive.fragment.ChatbotFragment
+import com.ndt.beproductive.fragment.FragmentDI
 import com.ndt.beproductive.fragment.M00SplashFrag
 import com.ndt.beproductive.viewmodel.CommonVM
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 
 
+@AndroidEntryPoint
 class MainActivity : BaseAct<ActivityMainBinding, CommonVM>() {
 
     companion object {
@@ -104,7 +107,7 @@ class MainActivity : BaseAct<ActivityMainBinding, CommonVM>() {
 
     override fun initViews() {
         Log.i(TAG, "Main act")
-        showFrag(M00SplashFrag.TAG, null, false)
+        showFrag(FragmentDI.TAG, null, false)
         getImg()
         showChatBubble()
         displayAgainChatBubble()
