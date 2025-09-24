@@ -1,0 +1,12 @@
+1) Navigation Component là gì?
+    - Là thư viện của Android Jetpack giúp quản lý điều hướng trong ứng dụng Android.
+        (Fragments/Activities/Compose), tự xử lý fragment transactions, back/up, argument passing, deep links, v.v.
+    — Giảm boilerplate so với việc dùng FragmentManager/Intents tay.
+
+2) Các khái niệm cốt lõi
+    - NavHost: Container cho các destinations (thường là FragmentContainerView trong XML).
+    - NavController: Điều khiển điều hướng, quản lý back stack.
+    - NavGraph: Định nghĩa các destinations và actions giữa chúng (XML hoặc code).
+    - Destination: Điểm đến trong điều hướng (Fragment, Activity, Composable).
+    - Action: Hành động chuyển từ destination này sang destination khác.
+    - Safe Args: plugin Gradle tạo classes để truyền args type-safe giữa destinaitons (rất được khuyến nghị)

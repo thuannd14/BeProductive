@@ -1,0 +1,68 @@
+? Câu hỏi đang thắc mắc là khi triển khai DI với ROOM thì Repository, DAO, Database được inject thế nào
+
+1. Bức tranh tổng thể: Repository – DAO – Database
+
+    - Trong kiến trúc MVVM với Room:
+
+    - UI (ViewModel) → gọi đến Repository.
+
+    - Repository → đóng vai trò "cầu nối" giữa UI và Data Source (Room DB, API, Cache...).
+
+    - DAO (Data Access Object) → cung cấp method truy vấn (insert, delete, query...).
+
+    - AppDatabase → lớp abstract, đại diện cho Room Database, sinh ra implementation của các DAO.
+
+    ------->  ViewModel -> Repository -> DAO -> Room Database -> SQLite
+
+2. Tại sao Repository cần NoteDAO, không cần AppDatabase?
+
+    Repository chỉ quan tâm đến các thao tác dữ liệu cụ thể (insert, query, delete).
+
+    Các thao tác này được định nghĩa ở DAO interface.
+
+    AppDatabase bản chất chỉ là "factory" để tạo ra NoteDAO (và các DAO khác).
+
+    Nếu inject thẳng AppDatabase vào Repository, thì trong Repository lại phải gọi db.noteDao().
+        ----> Có nghĩa là lại new Database() trong repository ---> Phụ thuộc
+
+    Điều này:
+
+        Coupling cao (Repository phụ thuộc AppDatabase).
+
+        Khó test (mock DAO thì dễ hơn mock Database).
+
+        Best practice: Repository nên nhận DAO → rõ ràng hơn, testable hơn.
+
+3. Tại sao trong AppModule lại provide AppDatabase?
+
+    Bởi vì:
+
+        Room sinh ra DAO thông qua AppDatabase.
+
+        Bạn không thể trực tiếp tạo ra NoteDao, mà phải đi qua Room.databaseBuilder(...) để có AppDatabase, rồi gọi appDatabase.noteDao().
+
+        Do đó trong AppModule (Hilt module):
+
+        Provide AppDatabase trước (singleton).
+
+        Từ AppDatabase, provide NoteDao.
+
+4. Tóm tắt luồng DI
+
+    Hilt biết cách tạo AppDatabase (nhờ provideDatabase).
+
+    Từ AppDatabase, Hilt biết cách tạo NoteDao (nhờ provideNoteDao).
+
+    Khi bạn inject NoteRepository, Hilt tự động tìm dependency:
+
+    NoteRepository cần NoteDao.
+
+    Hilt thấy đã có cách tạo NoteDao từ AppDatabase.
+
+    Hilt tiêm vào cho Repository.
+
+    👉 Kết quả:
+
+        Repository không phụ thuộc AppDatabase.
+
+        AppDatabase chỉ được quản lý 1 nơi (AppModule, Singleton).
